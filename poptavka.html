@@ -1,0 +1,35 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Poptávka</title>
+  <link rel="stylesheet" href="css/styl.css">
+</head>
+<body data-stranka="poptavka">
+  <header id="hlavicka"></header>
+  <main class="obal">
+    <h1>Poptávka</h1>
+    <p>Chcete zařízení na míru, díl, který v obchodě není, nebo větší zakázku? Napište nám a připravíme nabídku.</p>
+    <form id="poptavka" class="formular">
+      <div class="radek">
+        <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
+        <label>Telefon<input name="telefon" type="tel" required autocomplete="tel"></label>
+      </div>
+      <div class="radek">
+        <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
+        <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
+      </div>
+      <label>Co poptáváte<input name="predmet" required></label>
+      <label>Podrobnosti <span class="nepovinne">(rozměry, výkon, počet kusů, místo instalace…)</span><textarea name="popis" required></textarea></label>
+      <label class="zaskrt"><input type="checkbox" name="souhlas" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
+      <button class="tlacitko" type="submit">Odeslat poptávku</button>
+      <p class="stav" role="status"></p>
+    </form>
+  </main>
+  <footer id="paticka"></footer>
+  <script src="js/config.js"></script>
+  <script src="js/produkty.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

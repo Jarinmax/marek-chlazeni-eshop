@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Objednat servis</title>
+  <link rel="stylesheet" href="css/styl.css">
+</head>
+<body data-stranka="servis">
+  <header id="hlavicka"></header>
+  <main class="obal">
+    <h1>Objednat servis</h1>
+    <p>Popište, co se děje, a navrhněte termín. Ozveme se a výjezd technika potvrdíme.</p>
+    <form id="servis" class="formular">
+      <div class="radek">
+        <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
+        <label>Telefon<input name="telefon" type="tel" required autocomplete="tel"></label>
+      </div>
+      <div class="radek">
+        <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
+        <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
+      </div>
+      <label>Adresa zařízení<input name="adresa" required autocomplete="street-address"></label>
+      <div class="radek">
+        <label>Typ požadavku
+          <select name="typ">
+            <option>Porucha / oprava</option>
+            <option>Pravidelný servis / údržba</option>
+            <option>Revize / kontrola těsnosti</option>
+            <option>Montáž nového zařízení</option>
+            <option>Jiné</option>
+          </select>
+        </label>
+        <label>Naléhavost
+          <select name="nalehavost">
+            <option>Běžná – stačí v příštích dnech</option>
+            <option>Spěchá – zařízení nechladí</option>
+          </select>
+        </label>
+      </div>
+      <div class="radek">
+        <label>Zařízení <span class="nepovinne">(typ, značka)</span><input name="zarizeni"></label>
+        <label>Preferovaný termín<input name="termin" type="date"></label>
+      </div>
+      <label>Popis problému<textarea name="popis" required></textarea></label>
+      <label class="zaskrt"><input type="checkbox" name="souhlas" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
+      <button class="tlacitko" type="submit">Odeslat objednávku servisu</button>
+      <p class="stav" role="status"></p>
+    </form>
+  </main>
+  <footer id="paticka"></footer>
+  <script src="js/config.js"></script>
+  <script src="js/produkty.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
