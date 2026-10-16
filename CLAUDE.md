@@ -1,6 +1,6 @@
-# E-shop – servis chladírenských systémů (Marek)
+# CO2klima – e-shop a servis chladírenských vozů (Marek)
 
-Samostatný projekt pro Marka, který dělá servis chladírenských systémů.
+Samostatný projekt pro Marka – CO2klima, servis a opravy chladírenských vozů.
 **Nemá nic společného s Beginou ani s repozitářem `mojebegina`.** Nic z Beginy sem
 nepřenášet (texty, kód, data, platby, účty) a nic odsud nepřenášet tam.
 
@@ -21,3 +21,10 @@ Otevře se přímo `index.html` v prohlížeči nebo přes GitHub Pages.
 
 - Do repozitáře nikdy nedávat hesla, API klíče s právem zápisu ani přístupy k platbám.
 - Texty jsou česky, ceny v Kč včetně DPH.
+
+## Vzhled (Markův návrh CO2klima)
+
+Černé pozadí, limetková zelená `#6cc70a`, bílé tučné nadpisy, písmo Lexend.
+Hlavní tlačítko zelené s černým textem, vedlejší černé se zeleným rámečkem.
+Zelený pruh „Má váš chladírenský vůz poruchu?“ nad patičkou. Barvy jsou v `css/styl.css` (`:root`).
+`img/logo.png` je zatím vystřižené ze screenshotu – nahradit originálem od Marka.

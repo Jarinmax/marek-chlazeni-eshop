@@ -7,6 +7,8 @@
   const kc = (n) => n.toLocaleString('cs-CZ') + ' Kč';
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const produkt = (id) => P.find((p) => p.id === id);
+  const telefon = C.firma.telefon || '[telefon]';
+  const telOdkaz = C.firma.telefon ? 'tel:' + C.firma.telefon.replace(/\s+/g, '') : 'kontakt.html';
 
   // ---------- Košík ----------
   function nactiKosik() {
@@ -41,8 +43,8 @@
     const aktivni = document.body.dataset.stranka;
     const odkazy = [
       ['index.html', 'uvod', 'Úvod'],
+      ['servis.html', 'servis', 'Oprava a servis'],
       ['obchod.html', 'obchod', 'Obchod'],
-      ['servis.html', 'servis', 'Objednat servis'],
       ['poptavka.html', 'poptavka', 'Poptávka'],
       ['kontakt.html', 'kontakt', 'Kontakt'],
     ];
@@ -50,10 +52,7 @@
     if (!el) return;
     el.innerHTML = `
       <div class="obal hlavicka">
-        <a class="logo" href="index.html">
-          <span class="logo-znak" aria-hidden="true">❄</span>
-          <span><strong>${esc(C.firma.nazev)}</strong><small>${esc(C.firma.podtitul)}</small></span>
-        </a>
+        <a class="logo" href="index.html"><img src="img/logo-maly.png" alt="${esc(C.firma.znacka)} – ${esc(C.firma.podtitul)}"></a>
         <button class="menu-tlacitko" aria-expanded="false" aria-controls="menu">Menu</button>
         <nav id="menu" class="menu">
           ${odkazy.map(([h, id, t]) => `<a href="${h}"${id === aktivni ? ' aria-current="page"' : ''}>${t}</a>`).join('')}
@@ -72,14 +71,26 @@
     const f = C.firma;
     el.innerHTML = `
       <div class="obal paticka">
-        <div><strong>${esc(f.nazev)}</strong><br>${esc(f.adresa)}<br>IČO: ${esc(f.ico)}</div>
-        <div>Tel.: <a href="tel:${esc(f.telefon)}">${esc(f.telefon)}</a><br>E-mail: <a href="mailto:${esc(f.email)}">${esc(f.email)}</a></div>
-        <div>Servis: ${esc(f.oblast)}</div>
+        <div class="paticka-firma">
+          <a class="logo" href="index.html"><img src="img/logo-maly.png" alt="${esc(f.znacka)}"></a>
+          <p>${esc(f.nazev)}, IČO ${esc(f.ico)}<br>${esc(f.adresa)}</p>
+        </div>
+        <p><a href="${telOdkaz}">${esc(telefon)}</a><br><a href="mailto:${esc(f.email)}">${esc(f.email)}</a><br>${esc(f.oteviraciDoba)}</p>
+        <nav class="paticka-menu" aria-label="Patička">
+          <a href="servis.html">Oprava a servis</a>
+          <a href="obchod.html">Obchod</a>
+          <a href="poptavka.html">Poptávka</a>
+          <a href="kontakt.html">Kontakt</a>
+        </nav>
       </div>`;
   }
   function vyplnFirmu() {
     document.querySelectorAll('[data-firma]').forEach((el) => {
-      el.textContent = C.firma[el.dataset.firma] ?? '';
+      el.textContent = el.dataset.firma === 'telefon' ? telefon : (C.firma[el.dataset.firma] ?? '');
+    });
+    document.querySelectorAll('[data-zavolat]').forEach((el) => {
+      el.href = telOdkaz;
+      el.textContent = 'Zavolat ' + telefon;
     });
   }
 
@@ -94,8 +105,10 @@
          </div>`;
     return `
       <article class="karta">
-        ${p.ukazka ? '<span class="stitek ukazka">Ukázka</span>' : ''}
-        <span class="kategorie">${esc(kat ? kat.nazev : '')}</span>
+        <div class="karta-hlava">
+          <span class="kategorie">${esc(kat ? kat.nazev : '')}</span>
+          ${p.ukazka ? '<span class="stitek ukazka">Ukázka</span>' : ''}
+        </div>
         <h3>${esc(p.nazev)}</h3>
         <p>${esc(p.popis)}</p>
         <div class="cena-radek">
@@ -233,7 +246,7 @@
     if (!form) return;
     form.addEventListener('submit', (e) => {
       e.preventDefault();
-      odesli(form, 'Objednávka servisu z webu');
+      odesli(form, 'Poptávka opravy z webu');
     });
   }
 
@@ -262,7 +275,9 @@
       stav.textContent = 'Děkujeme, odesláno. Ozveme se vám co nejdříve.';
       return true;
     } catch (err) {
-      stav.textContent = `Odeslání se nepovedlo. Zavolejte nám prosím na ${C.firma.telefon} nebo napište na ${C.firma.email}.`;
+      stav.textContent = C.firma.telefon
+        ? `Odeslání se nepovedlo. Zavolejte nám prosím na ${C.firma.telefon} nebo napište na ${C.firma.email}.`
+        : `Odeslání se nepovedlo. Napište nám prosím na ${C.firma.email}.`;
       return false;
     }
   }

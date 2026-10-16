@@ -3,14 +3,18 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Poptávka</title>
+  <title>Poptávka – CO2klima</title>
+  <meta name="theme-color" content="#000000">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
   <link rel="stylesheet" href="css/styl.css">
 </head>
 <body data-stranka="poptavka">
   <header id="hlavicka"></header>
   <main class="obal">
     <h1>Poptávka</h1>
-    <p>Chcete zařízení na míru, díl, který v obchodě není, nebo větší zakázku? Napište nám a připravíme nabídku.</p>
+    <p class="uvod-text">Chcete nový agregát, nástavbu, díl, který v obchodě není, nebo větší zakázku? Napište nám a připravíme nabídku.</p>
     <form id="poptavka" class="formular">
       <div class="radek">
         <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
@@ -21,7 +25,7 @@
         <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
       </div>
       <label>Co poptáváte<input name="predmet" required></label>
-      <label>Podrobnosti <span class="nepovinne">(rozměry, výkon, počet kusů, místo instalace…)</span><textarea name="popis" required></textarea></label>
+      <label>Podrobnosti <span class="nepovinne">(vůz, agregát, počet kusů…)</span><textarea name="popis" required></textarea></label>
       <label class="zaskrt"><input type="checkbox" name="souhlas" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
       <button class="tlacitko" type="submit">Odeslat poptávku</button>
       <p class="stav" role="status"></p>
