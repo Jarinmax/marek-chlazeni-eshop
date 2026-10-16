@@ -3,30 +3,43 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Poptávka – CO2klima</title>
+  <title>Poptávka dílu nebo zařízení – CO2klima</title>
+  <meta name="description" content="Poptávka náhradního dílu, chladicího agregátu nebo nástavby.">
   <meta name="theme-color" content="#000000">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
+  <link rel="icon" href="img/logo-maly.png">
   <link rel="stylesheet" href="css/styl.css">
 </head>
 <body data-stranka="poptavka">
   <header id="hlavicka"></header>
   <main class="obal">
-    <h1>Poptávka</h1>
-    <p class="uvod-text">Chcete nový agregát, nástavbu, díl, který v obchodě není, nebo větší zakázku? Napište nám a připravíme nabídku.</p>
+    <h1>Poptávka dílu nebo zařízení</h1>
+    <p class="uvod-text">Sháníte náhradní díl, nový agregát nebo nástavbu? Napište nám a připravíme nabídku. Pro opravu vozu použijte <a href="servis.html">poptávku opravy</a>.</p>
     <form id="poptavka" class="formular">
-      <div class="radek">
-        <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
-        <label>Telefon<input name="telefon" type="tel" required autocomplete="tel"></label>
-      </div>
-      <div class="radek">
-        <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
-        <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
-      </div>
-      <label>Co poptáváte<input name="predmet" required></label>
-      <label>Podrobnosti <span class="nepovinne">(vůz, agregát, počet kusů…)</span><textarea name="popis" required></textarea></label>
-      <label class="zaskrt"><input type="checkbox" name="souhlas" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
+      <fieldset>
+        <legend>Co poptáváte</legend>
+        <label>Díl nebo zařízení<input name="predmet" required></label>
+        <label>Podrobnosti <span class="nepovinne">(vůz, typ agregátu, počet kusů…)</span><textarea name="popis" required></textarea></label>
+        <label>Fotky <span class="nepovinne">(nepovinné – starý díl, štítek agregátu)</span>
+          <input type="file" name="fotky" accept="image/*" multiple>
+          <span class="napoveda" data-limit-fotek></span>
+        </label>
+        <div class="nahledy"></div>
+      </fieldset>
+      <fieldset>
+        <legend>Kontakt na vás</legend>
+        <div class="radek">
+          <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
+          <label>Telefon<input name="telefon" type="tel" required autocomplete="tel"></label>
+        </div>
+        <div class="radek">
+          <label>E-mail <span class="nepovinne">(nepovinné)</span><input name="email" type="email" autocomplete="email"></label>
+          <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
+        </div>
+      </fieldset>
+      <label class="zaskrt"><input type="checkbox" name="souhlas" value="ano" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
       <button class="tlacitko" type="submit">Odeslat poptávku</button>
       <p class="stav" role="status"></p>
     </form>

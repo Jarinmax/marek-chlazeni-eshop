@@ -1,50 +1,44 @@
 // Katalog produktů.
-// cena: Kč s DPH, nebo null = jen na poptávku.
-// ukazka: true = vymyšlená ukázková položka, před spuštěním nahradit skutečným sortimentem.
+//   kategorie: id z CONFIG.obchod.kategorie
+//   cena:      Kč (číslo), nebo null = „Cena na poptávku“
+//   skladem:   true / false, nebo null = dostupnost se neukazuje
+//   ukazka:    true = položka jen ukazuje rozložení obchodu. Nemá cenu ani dostupnost,
+//              nese štítek „Ukázka“ a před spuštěním se nahradí skutečným sortimentem.
 window.PRODUKTY = [
   {
-    id: 'ukazka-filtr',
+    id: 'ukazka-dil-1',
     kategorie: 'dily',
-    nazev: 'Ukázka: filtrdehydrátor',
-    popis: 'Zástupná položka – sem přijde skutečný díl k chladicímu agregátu.',
-    cena: 690,
-    skladem: true,
+    nazev: 'Díl k chladicímu agregátu',
+    popis: 'Ukázková položka – sem přijde skutečný díl z Markova sortimentu.',
+    cena: null,
+    skladem: null,
     ukazka: true,
   },
   {
-    id: 'ukazka-ventilator',
+    id: 'ukazka-dil-2',
     kategorie: 'dily',
-    nazev: 'Ukázka: ventilátor kondenzátoru',
-    popis: 'Zástupná položka – ventilátor pro agregát chladírenského vozu.',
-    cena: 2490,
-    skladem: true,
+    nazev: 'Díl k chladicímu agregátu',
+    popis: 'Ukázková položka – sem přijde skutečný díl z Markova sortimentu.',
+    cena: null,
+    skladem: null,
     ukazka: true,
   },
   {
-    id: 'ukazka-termostat',
+    id: 'ukazka-dil-3',
     kategorie: 'dily',
-    nazev: 'Ukázka: ovládací panel s termostatem',
-    popis: 'Zástupná položka – regulace teploty v nástavbě.',
-    cena: 3290,
-    skladem: false,
+    nazev: 'Díl k izolované nástavbě',
+    popis: 'Ukázková položka – sem přijde skutečný díl z Markova sortimentu.',
+    cena: null,
+    skladem: null,
     ukazka: true,
   },
   {
     id: 'ukazka-agregat',
     kategorie: 'zarizeni',
-    nazev: 'Ukázka: chladicí agregát pro dodávku',
-    popis: 'Zástupná položka – cena podle vozu a montáže, proto jen na poptávku.',
+    nazev: 'Chladicí agregát',
+    popis: 'Ukázková položka – sem přijde skutečný agregát z Markovy nabídky.',
     cena: null,
-    skladem: false,
-    ukazka: true,
-  },
-  {
-    id: 'ukazka-nastavba',
-    kategorie: 'zarizeni',
-    nazev: 'Ukázka: izolovaná nástavba na míru',
-    popis: 'Zástupná položka – výroba nebo oprava izolované nástavby.',
-    cena: null,
-    skladem: false,
+    skladem: null,
     ukazka: true,
   },
 ];

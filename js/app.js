@@ -1,21 +1,50 @@
-// Společný kód: hlavička, patička, košík, katalog a formuláře.
+// Společný kód: hlavička, patička, pracovní pole, katalog, košík a formuláře.
 (function () {
   const C = window.CONFIG;
   const P = window.PRODUKTY || [];
-  const KLIC_KOSIKU = 'kosik-chlazeni';
+  const F = C.firma;
+  const KLIC_KOSIKU = 'kosik-co2klima';
 
   const kc = (n) => n.toLocaleString('cs-CZ') + ' Kč';
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
   const produkt = (id) => P.find((p) => p.id === id);
-  const telefon = C.firma.telefon || '[telefon]';
-  const telOdkaz = C.firma.telefon ? 'tel:' + C.firma.telefon.replace(/\s+/g, '') : 'kontakt.html';
 
-  // ---------- Košík ----------
+  // ---------- Pracovní pole ----------
+  // Nepotvrzený údaj (null v config.js) se zobrazí jako žlutě zvýrazněné „[popisek]“.
+  const POPISKY = {
+    nazev: 'Název firmy',
+    ico: 'IČO',
+    dic: 'DIČ',
+    adresa: 'Adresa dílny',
+    telefon: 'telefon',
+    email: 'e-mail',
+    oteviraciDoba: 'Otevírací doba',
+    oblast: 'Oblast působnosti',
+  };
+  const pracovni = (popisek) => `<span class="pracovni" title="Pracovní pole – doplnit v js/config.js">[${esc(popisek)}]</span>`;
+  const pole = (hodnota, popisek) => (hodnota == null || hodnota === '' ? pracovni(popisek) : esc(hodnota));
+  const firma = (klic) => pole(F[klic], POPISKY[klic] || klic);
+  const telOdkaz = F.telefon ? 'tel:' + F.telefon.replace(/\s+/g, '') : 'kontakt.html';
+  const mailOdkaz = F.email ? 'mailto:' + F.email : 'kontakt.html';
+
+  function pruhPracovniVerze() {
+    if (!C.pracovniVerze) return;
+    const meta = document.createElement('meta');
+    meta.name = 'robots';
+    meta.content = 'noindex';
+    document.head.appendChild(meta);
+    const pruh = document.createElement('div');
+    pruh.className = 'pruh-pracovni';
+    pruh.innerHTML = `Pracovní verze webu – údaje ${pracovni('v závorkách')} a ukázkové položky se před spuštěním doplní.`;
+    document.body.prepend(pruh);
+  }
+
+  // ---------- Košík (aktivní jen při CONFIG.obchod.objednavky) ----------
   function nactiKosik() {
     try {
       const k = JSON.parse(localStorage.getItem(KLIC_KOSIKU)) || {};
-      // Vyhodit položky, které už v katalogu nejsou nebo nemají cenu.
-      for (const id of Object.keys(k)) if (!produkt(id) || produkt(id).cena == null) delete k[id];
+      // Vyhodit položky, které už v katalogu nejsou nebo se nedají koupit.
+      for (const id of Object.keys(k)) if (!lzeKoupit(produkt(id))) delete k[id];
       return k;
     } catch (e) {
       return {};
@@ -37,26 +66,28 @@
       el.hidden = n === 0;
     });
   }
+  const lzeKoupit = (p) => !!(C.obchod.objednavky && p && !p.ukazka && typeof p.cena === 'number');
 
   // ---------- Hlavička a patička ----------
   function hlavicka() {
-    const aktivni = document.body.dataset.stranka;
-    const odkazy = [
-      ['index.html', 'uvod', 'Úvod'],
-      ['servis.html', 'servis', 'Oprava a servis'],
-      ['obchod.html', 'obchod', 'Obchod'],
-      ['poptavka.html', 'poptavka', 'Poptávka'],
-      ['kontakt.html', 'kontakt', 'Kontakt'],
-    ];
     const el = document.getElementById('hlavicka');
     if (!el) return;
+    const aktivni = document.body.dataset.stranka;
+    const odkazy = [
+      ['sluzby.html', 'sluzby', 'Služby'],
+      ['obchod.html', 'obchod', 'Obchod'],
+      ['cenik.html', 'cenik', 'Ceník'],
+      ['kontakt.html', 'kontakt', 'Kontakt'],
+    ];
+    const aria = (id) => (id === aktivni ? ' aria-current="page"' : '');
     el.innerHTML = `
       <div class="obal hlavicka">
-        <a class="logo" href="index.html"><img src="img/logo-maly.png" alt="${esc(C.firma.znacka)} – ${esc(C.firma.podtitul)}"></a>
+        <a class="logo" href="index.html"><img src="img/logo-maly.png" alt="${esc(F.znacka)} – ${esc(F.podtitul)}"></a>
         <button class="menu-tlacitko" aria-expanded="false" aria-controls="menu">Menu</button>
         <nav id="menu" class="menu">
-          ${odkazy.map(([h, id, t]) => `<a href="${h}"${id === aktivni ? ' aria-current="page"' : ''}>${t}</a>`).join('')}
-          <a class="kosik-odkaz" href="kosik.html"${aktivni === 'kosik' ? ' aria-current="page"' : ''}>Košík <span class="odznak" data-pocet-kosik hidden>0</span></a>
+          ${odkazy.map(([h, id, t]) => `<a href="${h}"${aria(id)}>${t}</a>`).join('')}
+          ${C.obchod.objednavky ? `<a href="kosik.html"${aria('kosik')}>Košík <span class="odznak" data-pocet-kosik hidden>0</span></a>` : ''}
+          <a class="tlacitko menu-cta" href="servis.html"${aria('servis')}>Poptat opravu</a>
         </nav>
       </div>`;
     const btn = el.querySelector('.menu-tlacitko');
@@ -65,44 +96,77 @@
       btn.setAttribute('aria-expanded', otevreno);
     });
   }
+
   function paticka() {
     const el = document.getElementById('paticka');
     if (!el) return;
-    const f = C.firma;
     el.innerHTML = `
       <div class="obal paticka">
         <div class="paticka-firma">
-          <a class="logo" href="index.html"><img src="img/logo-maly.png" alt="${esc(f.znacka)}"></a>
-          <p>${esc(f.nazev)}, IČO ${esc(f.ico)}<br>${esc(f.adresa)}</p>
+          <a class="logo" href="index.html"><img src="img/logo-maly.png" alt="${esc(F.znacka)}"></a>
+          <p>${firma('nazev')}, IČO ${firma('ico')}<br>${firma('adresa')}</p>
         </div>
-        <p><a href="${telOdkaz}">${esc(telefon)}</a><br><a href="mailto:${esc(f.email)}">${esc(f.email)}</a><br>${esc(f.oteviraciDoba)}</p>
+        <p><a href="${telOdkaz}">${firma('telefon')}</a><br><a href="${mailOdkaz}">${firma('email')}</a><br>${firma('oteviraciDoba')}</p>
         <nav class="paticka-menu" aria-label="Patička">
-          <a href="servis.html">Oprava a servis</a>
+          <a href="sluzby.html">Služby</a>
+          <a href="cenik.html">Ceník</a>
+          <a href="reference.html">Reference</a>
+          <a href="stav-opravy.html">Stav opravy</a>
           <a href="obchod.html">Obchod</a>
-          <a href="poptavka.html">Poptávka</a>
           <a href="kontakt.html">Kontakt</a>
         </nav>
       </div>`;
   }
-  function vyplnFirmu() {
+
+  // ---------- Obsah řízený z config.js ----------
+  function vyplnObsah() {
     document.querySelectorAll('[data-firma]').forEach((el) => {
-      el.textContent = el.dataset.firma === 'telefon' ? telefon : (C.firma[el.dataset.firma] ?? '');
+      el.innerHTML = firma(el.dataset.firma);
     });
     document.querySelectorAll('[data-zavolat]').forEach((el) => {
       el.href = telOdkaz;
-      el.textContent = 'Zavolat ' + telefon;
+      el.innerHTML = 'Zavolat ' + (F.telefon ? esc(F.telefon) : '[telefon]');
     });
+    document.querySelectorAll('[data-znacky]').forEach((el) => {
+      el.innerHTML = C.znackyAgregatu && C.znackyAgregatu.length
+        ? C.znackyAgregatu.map(esc).join(', ')
+        : pracovni('značky agregátů, se kterými pracujeme');
+    });
+    document.querySelectorAll('[data-gastro]').forEach((el) => { el.hidden = !C.zobrazitGastro; });
+
+    const cenik = document.getElementById('cenik');
+    if (cenik) {
+      cenik.innerHTML = `
+        <table class="tabulka">
+          <thead><tr><th>Služba</th><th>Cena</th></tr></thead>
+          <tbody>${C.cenik.map((r) => `<tr><td>${esc(r.polozka)}</td><td>${r.cena == null ? pracovni('cena') : esc(r.cena)}</td></tr>`).join('')}</tbody>
+        </table>`;
+    }
+
+    const ref = document.getElementById('reference');
+    if (ref) {
+      ref.innerHTML = C.reference.length
+        ? C.reference.map((r) => `<figure class="reference"><blockquote>${esc(r.text)}</blockquote><figcaption>${esc(r.autor || '')}</figcaption></figure>`).join('')
+        : `<p class="info">${pracovni('Reference doplníme – fotky oprav a hodnocení zákazníků')}</p>`;
+    }
   }
 
-  // ---------- Katalog ----------
+  // ---------- Obchod ----------
   function karta(p) {
-    const kat = C.kategorie.find((k) => k.id === p.kategorie);
-    const akce = p.cena == null
-      ? `<a class="tlacitko druhotne" href="poptavka.html?produkt=${encodeURIComponent(p.id)}">Poptat</a>`
-      : `<div class="koupit">
+    const kat = C.obchod.kategorie.find((k) => k.id === p.kategorie);
+    let cena;
+    if (p.ukazka) cena = pracovni('cena');
+    else if (typeof p.cena === 'number') cena = kc(p.cena);
+    else cena = 'Cena na poptávku';
+    const sklad = !p.ukazka && typeof p.skladem === 'boolean'
+      ? `<span class="sklad ${p.skladem ? 'ano' : 'ne'}">${p.skladem ? 'Skladem' : 'Na objednávku'}</span>`
+      : '';
+    const akce = lzeKoupit(p)
+      ? `<div class="koupit">
            <input type="number" min="1" value="1" aria-label="Počet kusů">
            <button class="tlacitko" data-pridat="${esc(p.id)}">Do košíku</button>
-         </div>`;
+         </div>`
+      : `<a class="tlacitko druhotne" href="poptavka.html${p.ukazka ? '' : '?produkt=' + encodeURIComponent(p.id)}">Poptat</a>`;
     return `
       <article class="karta">
         <div class="karta-hlava">
@@ -111,21 +175,25 @@
         </div>
         <h3>${esc(p.nazev)}</h3>
         <p>${esc(p.popis)}</p>
-        <div class="cena-radek">
-          <span class="cena">${p.cena == null ? 'Cena na poptávku' : kc(p.cena)}</span>
-          ${p.cena != null ? `<span class="sklad ${p.skladem ? 'ano' : 'ne'}">${p.skladem ? 'Skladem' : 'Na objednávku'}</span>` : ''}
-        </div>
+        <div class="cena-radek"><span class="cena">${cena}</span>${sklad}</div>
         ${akce}
       </article>`;
   }
+
   function obchod() {
     const mrizka = document.getElementById('katalog');
     if (!mrizka) return;
+    const info = document.getElementById('obchod-info');
+    if (info && (!C.obchod.objednavky || P.some((p) => p.ukazka))) {
+      info.hidden = false;
+      info.innerHTML = 'Obchod připravujeme. Položky označené <strong>Ukázka</strong> jen ukazují rozložení a nejsou skutečnou nabídkou. '
+        + 'Potřebujete díl? <a href="poptavka.html">Pošlete poptávku</a> nebo <a href="' + telOdkaz + '">zavolejte</a>.';
+    }
     const filtry = document.getElementById('filtry');
     const hledat = document.getElementById('hledat');
     let kategorie = new URLSearchParams(location.search).get('kategorie') || '';
 
-    filtry.innerHTML = [{ id: '', nazev: 'Vše' }, ...C.kategorie]
+    filtry.innerHTML = [{ id: '', nazev: 'Vše' }, ...C.obchod.kategorie]
       .map((k) => `<button class="filtr" data-kategorie="${k.id}">${esc(k.nazev)}</button>`).join('');
 
     function vykresli() {
@@ -157,21 +225,26 @@
     const el = document.getElementById('kosik');
     if (!el) return;
     const form = document.getElementById('objednavka');
+    if (!C.obchod.objednavky) {
+      el.innerHTML = '<p class="info">Objednávky přes e-shop zatím nejsou spuštěné. Díly a zařízení můžete <a href="poptavka.html">poptat</a>.</p>';
+      form.hidden = true;
+      return;
+    }
     const doprava = form.querySelector('[name=doprava]');
     const platba = form.querySelector('[name=platba]');
-    doprava.innerHTML = C.doprava.map((d) => `<option value="${d.id}">${esc(d.nazev)}${d.cena == null ? ' (cenu upřesníme)' : d.cena ? ' – ' + kc(d.cena) : ' – zdarma'}</option>`).join('');
-    platba.innerHTML = C.platba.map((p) => `<option value="${p.id}">${esc(p.nazev)}</option>`).join('');
+    const cenaDopravy = (d) => (d.cena == null ? ' (cenu upřesníme)' : d.cena ? ' – ' + kc(d.cena) : ' – zdarma');
+    doprava.innerHTML = C.obchod.doprava.map((d) => `<option value="${d.id}">${esc(d.nazev)}${cenaDopravy(d)}</option>`).join('');
+    platba.innerHTML = C.obchod.platba.map((p) => `<option value="${p.id}">${esc(p.nazev)}</option>`).join('');
 
     function vykresli() {
-      const k = nactiKosik();
-      const polozky = Object.entries(k).map(([id, ks]) => ({ p: produkt(id), ks }));
+      const polozky = Object.entries(nactiKosik()).map(([id, ks]) => ({ p: produkt(id), ks }));
       if (!polozky.length) {
         el.innerHTML = '<p class="prazdne">Košík je prázdný. <a href="obchod.html">Pokračovat do obchodu</a></p>';
         form.hidden = true;
         return;
       }
       form.hidden = false;
-      const d = C.doprava.find((x) => x.id === doprava.value);
+      const d = C.obchod.doprava.find((x) => x.id === doprava.value);
       const zbozi = polozky.reduce((s, x) => s + x.p.cena * x.ks, 0);
       const celkem = zbozi + (d && d.cena ? d.cena : 0);
       el.innerHTML = `
@@ -186,7 +259,7 @@
               <td><button class="odebrat" data-odebrat="${esc(p.id)}" aria-label="Odebrat">✕</button></td>
             </tr>`).join('')}</tbody>
         </table>
-        <p class="soucet">Zboží: ${kc(zbozi)}<br>Doprava: ${d && d.cena == null ? 'upřesníme' : kc(d ? d.cena : 0)}<br><strong>Celkem s DPH: ${kc(celkem)}</strong></p>`;
+        <p class="soucet">Zboží: ${kc(zbozi)}<br>Doprava: ${d && d.cena == null ? 'upřesníme' : kc(d ? d.cena : 0)}<br><strong>Celkem: ${kc(celkem)}</strong></p>`;
     }
     el.addEventListener('change', (e) => {
       const id = e.target.dataset.ks;
@@ -208,17 +281,11 @@
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
-      const k = nactiKosik();
-      const radky = Object.entries(k).map(([id, ks]) => {
+      const radky = Object.entries(nactiKosik()).map(([id, ks]) => {
         const p = produkt(id);
         return `${ks}× ${p.nazev} à ${kc(p.cena)} = ${kc(p.cena * ks)}`;
       });
-      const d = C.doprava.find((x) => x.id === doprava.value);
-      const ok = await odesli(form, 'Nová objednávka z e-shopu', {
-        Objednávka: radky.join('\n'),
-        Doprava: d ? d.nazev : '',
-        Platba: (C.platba.find((x) => x.id === platba.value) || {}).nazev || '',
-      });
+      const ok = await odesliPozadavek(form, 'objednavka', 'Objednávka z e-shopu', { polozky: radky.join('\n') });
       if (ok) {
         ulozKosik({});
         el.innerHTML = '';
@@ -228,57 +295,85 @@
     vykresli();
   }
 
-  // ---------- Poptávka: předvyplnit produkt ----------
-  function poptavka() {
-    const form = document.getElementById('poptavka');
-    if (!form) return;
-    const id = new URLSearchParams(location.search).get('produkt');
-    const p = id && produkt(id);
-    if (p) form.querySelector('[name=predmet]').value = p.nazev;
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      odesli(form, 'Nová poptávka z webu');
+  // ---------- Formuláře ----------
+  function formulare() {
+    const poptavka = document.getElementById('poptavka');
+    if (poptavka) {
+      const p = produkt(new URLSearchParams(location.search).get('produkt'));
+      if (p && !p.ukazka) poptavka.querySelector('[name=predmet]').value = p.nazev;
+      poptavka.addEventListener('submit', (e) => {
+        e.preventDefault();
+        odesliPozadavek(poptavka, 'poptavka', 'Poptávka z webu');
+      });
+    }
+    const servis = document.getElementById('servis');
+    if (servis) {
+      // Příchod ze stránky Služby (servis.html?typ=nastavba) předvybere typ požadavku.
+      const typ = new URLSearchParams(location.search).get('typ');
+      const volba = typ && servis.querySelector(`option[data-typ="${CSS.escape(typ)}"]`);
+      if (volba) volba.selected = true;
+      servis.addEventListener('submit', (e) => {
+        e.preventDefault();
+        odesliPozadavek(servis, 'oprava', 'Poptávka opravy chladírenského vozu');
+      });
+    }
+    document.querySelectorAll('input[type=file][name=fotky]').forEach(pripravFotky);
+  }
+
+  // Výběr fotek: kontrola počtu a velikosti, náhledy.
+  function pripravFotky(input) {
+    const nahledy = input.closest('form').querySelector('.nahledy');
+    const limit = input.closest('form').querySelector('[data-limit-fotek]');
+    if (limit) limit.textContent = `Nejvýše ${C.formular.maxFotek} fotek, každá do ${C.formular.maxVelikostFotkyMB} MB.`;
+    input.addEventListener('change', () => {
+      const soubory = Array.from(input.files);
+      let chyba = '';
+      if (soubory.length > C.formular.maxFotek) chyba = `Vyberte nejvýše ${C.formular.maxFotek} fotek.`;
+      else if (soubory.some((f) => !f.type.startsWith('image/'))) chyba = 'Přiložit lze jen fotky (obrázky).';
+      else if (soubory.some((f) => f.size > C.formular.maxVelikostFotkyMB * 1024 * 1024)) chyba = `Každá fotka může mít nejvýše ${C.formular.maxVelikostFotkyMB} MB.`;
+      input.setCustomValidity(chyba);
+      if (chyba) input.reportValidity();
+      nahledy.querySelectorAll('img').forEach((img) => URL.revokeObjectURL(img.src));
+      nahledy.innerHTML = chyba ? '' : soubory.map((f) => `<img src="${URL.createObjectURL(f)}" alt="${esc(f.name)}">`).join('');
     });
   }
 
-  function servis() {
-    const form = document.getElementById('servis');
-    if (!form) return;
-    form.addEventListener('submit', (e) => {
-      e.preventDefault();
-      odesli(form, 'Poptávka opravy z webu');
-    });
-  }
-
-  // ---------- Odeslání formuláře ----------
-  // Pokud je nastavená formulářová služba, pošle data tam; jinak otevře e-mail s vyplněným textem.
-  async function odesli(form, predmet, navic) {
-    const data = Object.fromEntries(new FormData(form).entries());
-    Object.assign(data, navic || {});
+  // Jediné místo, kudy formuláře odcházejí. Napojení = vyplnit CONFIG.formular.endpoint.
+  // Posílá multipart/form-data: všechna pole formuláře (včetně fotek) + „typ“ a „predmet“.
+  async function odesliPozadavek(form, typ, predmet, navic) {
     const stav = form.querySelector('.stav');
-    const text = Object.entries(data).filter(([k]) => k !== 'souhlas').map(([k, v]) => `${k}: ${v}`).join('\n');
+    stav.className = 'stav';
+    const kontakt = [F.telefon && `zavolejte na ${F.telefon}`, F.email && `napište na ${F.email}`].filter(Boolean).join(' nebo ');
 
     if (!C.formular.endpoint) {
-      location.href = `mailto:${C.firma.email}?subject=${encodeURIComponent(predmet)}&body=${encodeURIComponent(text)}`;
-      stav.textContent = 'Otevřeli jsme váš e-mailový program s vyplněnou zprávou. Stačí ji odeslat.';
-      return true;
+      stav.classList.add('upozorneni');
+      stav.textContent = 'Formulář je připravený, ale v této pracovní verzi webu se zatím nikam neodesílá.'
+        + (kontakt ? ` Prosím ${kontakt}.` : '');
+      return false;
     }
+
+    const data = new FormData(form);
+    data.append('typ', typ);
+    data.append('predmet', predmet);
+    for (const [k, v] of Object.entries(navic || {})) data.append(k, v);
+
+    const tlacitko = form.querySelector('[type=submit]');
+    tlacitko.disabled = true;
     stav.textContent = 'Odesílám…';
     try {
-      const r = await fetch(C.formular.endpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify({ access_key: C.formular.klic || undefined, subject: predmet, ...data }),
-      });
+      const r = await fetch(C.formular.endpoint, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
       if (!r.ok) throw new Error(r.status);
       form.reset();
+      const nahledy = form.querySelector('.nahledy');
+      if (nahledy) nahledy.innerHTML = '';
       stav.textContent = 'Děkujeme, odesláno. Ozveme se vám co nejdříve.';
       return true;
     } catch (err) {
-      stav.textContent = C.firma.telefon
-        ? `Odeslání se nepovedlo. Zavolejte nám prosím na ${C.firma.telefon} nebo napište na ${C.firma.email}.`
-        : `Odeslání se nepovedlo. Napište nám prosím na ${C.firma.email}.`;
+      stav.classList.add('upozorneni');
+      stav.textContent = 'Odeslání se nepovedlo.' + (kontakt ? ` Prosím ${kontakt}.` : ' Zkuste to prosím znovu.');
       return false;
+    } finally {
+      tlacitko.disabled = false;
     }
   }
 
@@ -296,12 +391,12 @@
     oznam.t = setTimeout(() => el.classList.remove('videt'), 2500);
   }
 
+  pruhPracovniVerze();
   hlavicka();
   paticka();
-  vyplnFirmu();
+  vyplnObsah();
   aktualizujPocet();
   obchod();
   kosik();
-  poptavka();
-  servis();
+  formulare();
 })();

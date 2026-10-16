@@ -52,7 +52,7 @@ main.obal { padding-top: 28px; padding-bottom: 56px; }
 .rozcestnik { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin: 40px 0; }
 .rozcestnik a { display: block; background: var(--plocha); border: 1px solid var(--okraj); border-radius: var(--radius); padding: 22px; text-decoration: none; color: var(--text); transition: border-color .15s; }
 .rozcestnik a:hover { border-color: var(--zelena); }
-.rozcestnik h2 { font-size: 1.2rem; margin: 0 0 8px; }
+.rozcestnik h2, .rozcestnik h3 { font-size: 1.2rem; margin: 0 0 8px; }
 .rozcestnik p { margin: 0; color: var(--tlumeny); }
 
 /* Zelený panel „Má váš vůz poruchu?“ */
@@ -148,3 +148,55 @@ textarea { min-height: 120px; resize: vertical; }
 /* Oznámení */
 #oznameni { position: fixed; bottom: 20px; left: 50%; transform: translate(-50%, 20px); background: var(--zelena); color: var(--na-zelene); font-weight: 600; padding: 12px 20px; border-radius: 8px; opacity: 0; transition: .2s; pointer-events: none; }
 #oznameni.videt { opacity: 1; transform: translate(-50%, 0); }
+
+/* Pracovní pole – nepotvrzené údaje z config.js (null). Před spuštěním zmizí doplněním hodnot. */
+.pracovni { background: rgba(242, 179, 61, .16); color: var(--varovani); border: 1px dashed var(--varovani); border-radius: 4px; padding: 0 4px; }
+.panel-zeleny .pracovni, .tlacitko .pracovni { background: transparent; color: inherit; border-color: currentColor; }
+.pruh-pracovni { background: #1d1606; color: var(--varovani); text-align: center; font-size: .85rem; padding: 6px 16px; border-bottom: 1px solid #3a2c0c; }
+
+/* Tlačítko „Poptat opravu“ v menu */
+.menu { align-items: center; }
+.menu a.menu-cta { padding: 8px 16px; font-size: .95rem; color: var(--na-zelene); margin-left: 8px; }
+.menu a.menu-cta:hover { color: var(--na-zelene); }
+.menu a.menu-cta[aria-current="page"] { box-shadow: none; border-radius: 8px; color: var(--na-zelene); }
+@media (max-width: 760px) {
+  .menu { align-items: stretch; }
+  .menu a.menu-cta { margin: 8px 0 0; }
+}
+
+/* Sekce na úvodu a ve službách */
+.sekce { margin: 48px 0; }
+.sekce > h2 { font-size: clamp(1.5rem, 4vw, 2rem); margin: 0 0 20px; }
+.sekce-uvod { color: var(--tlumeny); max-width: 640px; margin: -8px 0 20px; }
+.kroky { list-style: none; counter-reset: krok; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+.kroky li { counter-increment: krok; background: var(--plocha); border: 1px solid var(--okraj); border-radius: var(--radius); padding: 22px; }
+.kroky li::before { content: counter(krok); display: inline-grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--zelena); color: var(--na-zelene); font-weight: 700; margin-bottom: 12px; }
+.kroky h3 { margin: 0 0 6px; font-size: 1.1rem; }
+.kroky p { margin: 0; color: var(--tlumeny); }
+.sluzba { background: var(--plocha); border: 1px solid var(--okraj); border-left: 4px solid var(--zelena); border-radius: var(--radius); padding: 24px; margin-bottom: 16px; scroll-margin-top: 90px; }
+.sluzba h2 { margin: 0 0 8px; font-size: 1.4rem; }
+.sluzba p { margin: 0 0 16px; color: var(--tlumeny); max-width: 680px; }
+.sluzba ul { margin: 0 0 16px; padding-left: 20px; color: var(--tlumeny); }
+.sluzba .tlacitko { padding: 10px 18px; font-size: 1rem; }
+.sluzba.vedlejsi { border-left-color: var(--okraj); }
+
+/* Informační a upozorňovací boxy */
+.info { background: var(--plocha); border: 1px solid var(--okraj); border-radius: var(--radius); padding: 16px 18px; color: var(--tlumeny); margin: 0 0 20px; max-width: 760px; }
+.info strong { color: #fff; }
+.stav.upozorneni { color: var(--varovani); }
+
+/* Fotky ve formuláři */
+input[type=file] { padding: 10px; cursor: pointer; }
+input[type=file]::file-selector-button { font: inherit; font-weight: 600; background: var(--zelena); color: var(--na-zelene); border: none; border-radius: 6px; padding: 8px 14px; margin-right: 12px; cursor: pointer; }
+.napoveda { font-weight: 400; color: var(--tlumeny); font-size: .85rem; }
+.nahledy { display: flex; flex-wrap: wrap; gap: 8px; }
+.nahledy:empty { display: none; }
+.nahledy img { width: 84px; height: 84px; object-fit: cover; border-radius: 8px; border: 1px solid var(--okraj); }
+form.formular fieldset { border: none; padding: 0; margin: 0; display: grid; gap: 16px; }
+form.formular legend { font-size: 1.1rem; font-weight: 700; padding: 0; margin-bottom: 4px; color: var(--zelena); }
+button[disabled] { opacity: .6; cursor: wait; }
+
+/* Reference */
+.reference { background: var(--plocha); border: 1px solid var(--okraj); border-radius: var(--radius); padding: 20px; margin: 0 0 16px; }
+.reference blockquote { margin: 0 0 8px; }
+.reference figcaption { color: var(--tlumeny); }

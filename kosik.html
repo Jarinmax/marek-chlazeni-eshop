@@ -4,10 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Košík – CO2klima</title>
+  <meta name="description" content="Košík e-shopu CO2klima.">
   <meta name="theme-color" content="#000000">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
+  <link rel="icon" href="img/logo-maly.png">
   <link rel="stylesheet" href="css/styl.css">
 </head>
 <body data-stranka="kosik">
@@ -16,22 +18,27 @@
     <h1>Košík</h1>
     <div id="kosik"></div>
     <form id="objednavka" class="formular" hidden>
-      <h2 style="margin:0">Dodací údaje</h2>
-      <div class="radek">
-        <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
-        <label>Telefon<input name="telefon" type="tel" required autocomplete="tel"></label>
-      </div>
-      <div class="radek">
-        <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
-        <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
-      </div>
-      <label>Adresa doručení<input name="adresa" autocomplete="street-address"></label>
-      <div class="radek">
-        <label>Doprava<select name="doprava"></select></label>
-        <label>Platba<select name="platba"></select></label>
-      </div>
-      <label>Poznámka <span class="nepovinne">(nepovinné)</span><textarea name="poznamka"></textarea></label>
-      <label class="zaskrt"><input type="checkbox" name="souhlas" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
+      <fieldset>
+        <legend>Kontakt na vás</legend>
+        <div class="radek">
+          <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
+          <label>Telefon<input name="telefon" type="tel" required autocomplete="tel"></label>
+        </div>
+        <div class="radek">
+          <label>E-mail <span class="nepovinne">(nepovinné)</span><input name="email" type="email" autocomplete="email"></label>
+          <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
+        </div>
+      </fieldset>
+      <fieldset>
+        <legend>Doručení a platba</legend>
+        <label>Adresa doručení<input name="adresa" autocomplete="street-address"></label>
+        <div class="radek">
+          <label>Doprava<select name="doprava"></select></label>
+          <label>Platba<select name="platba"></select></label>
+        </div>
+        <label>Poznámka <span class="nepovinne">(nepovinné)</span><textarea name="poznamka"></textarea></label>
+      </fieldset>
+      <label class="zaskrt"><input type="checkbox" name="souhlas" value="ano" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
       <button class="tlacitko" type="submit">Odeslat objednávku</button>
       <p class="stav" role="status"></p>
     </form>

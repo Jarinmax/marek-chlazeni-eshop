@@ -4,10 +4,12 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Poptat opravu – CO2klima</title>
+  <meta name="description" content="Poptávka opravy nebo servisu chladírenského vozu či chladicí dodávky.">
   <meta name="theme-color" content="#000000">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
+  <link rel="icon" href="img/logo-maly.png">
   <link rel="stylesheet" href="css/styl.css">
 </head>
 <body data-stranka="servis">
@@ -16,53 +18,57 @@
     <h1>Poptat opravu</h1>
     <p class="uvod-text">Popište, co se s vozem děje. Ozveme se, domluvíme termín a navrhneme řešení.</p>
     <form id="servis" class="formular">
-      <div class="radek">
-        <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
-        <label>Telefon<input name="telefon" type="tel" required autocomplete="tel"></label>
-      </div>
-      <div class="radek">
-        <label>E-mail<input name="email" type="email" required autocomplete="email"></label>
-        <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
-      </div>
-      <div class="radek">
-        <label>Co potřebujete
-          <select name="typ">
-            <option>Porucha chladicího agregátu</option>
-            <option>Pravidelný servis agregátu</option>
-            <option>Oprava izolované nástavby</option>
-            <option>Elektroinstalace</option>
-            <option>Montáž nového agregátu</option>
-            <option>Jiné</option>
-          </select>
+      <fieldset>
+        <legend>Vůz a závada</legend>
+        <div class="radek">
+          <label>Co potřebujete
+            <select name="typ_pozadavku">
+              <option data-typ="agregat">Porucha chladicího agregátu</option>
+              <option data-typ="servis">Pravidelný servis agregátu</option>
+              <option data-typ="nastavba">Oprava izolované nástavby</option>
+              <option data-typ="elektro">Elektroinstalace</option>
+              <option data-typ="jine">Jiné</option>
+            </select>
+          </label>
+          <label>Naléhavost
+            <select name="nalehavost">
+              <option>Spěchá – vůz nechladí</option>
+              <option selected>Běžná – stačí v příštích dnech</option>
+            </select>
+          </label>
+        </div>
+        <div class="radek">
+          <label>Značka a typ vozu<input name="vuz" placeholder="např. značka, model"></label>
+          <label>SPZ <span class="nepovinne">(nepovinné)</span><input name="spz" autocapitalize="characters"></label>
+        </div>
+        <div class="radek">
+          <label>Typ agregátu <span class="nepovinne">(pokud víte)</span><input name="agregat" placeholder="značka a typ ze štítku"></label>
+          <label>Kde vůz stojí<input name="misto" required placeholder="obec, ulice"></label>
+        </div>
+        <label>Popis závady<textarea name="popis" required placeholder="Co se děje, od kdy, případně chybový kód"></textarea></label>
+        <label>Fotky <span class="nepovinne">(nepovinné – závada, štítek agregátu, chybové hlášení)</span>
+          <input type="file" name="fotky" accept="image/*" multiple>
+          <span class="napoveda" data-limit-fotek></span>
         </label>
-        <label>Naléhavost
-          <select name="nalehavost">
-            <option>Běžná – stačí v příštích dnech</option>
-            <option>Spěchá – vůz nechladí</option>
-          </select>
-        </label>
-      </div>
-      <div class="radek">
-        <label>Vůz <span class="nepovinne">(značka, typ, SPZ)</span><input name="vuz"></label>
-        <label>Agregát <span class="nepovinne">(značka, typ)</span><input name="agregat"></label>
-      </div>
-      <div class="radek">
-        <label>Kde vůz stojí<input name="misto" autocomplete="address-level2"></label>
-        <label>Preferovaný termín<input name="termin" type="date"></label>
-      </div>
-      <label>Popis problému<textarea name="popis" required></textarea></label>
-      <label class="zaskrt"><input type="checkbox" name="souhlas" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
+        <div class="nahledy"></div>
+        <label>Preferovaný termín <span class="nepovinne">(nepovinné)</span><input name="termin" type="date"></label>
+      </fieldset>
+      <fieldset>
+        <legend>Kontakt na vás</legend>
+        <div class="radek">
+          <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
+          <label>Telefon<input name="telefon" type="tel" required autocomplete="tel"></label>
+        </div>
+        <div class="radek">
+          <label>E-mail <span class="nepovinne">(nepovinné)</span><input name="email" type="email" autocomplete="email"></label>
+          <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
+        </div>
+      </fieldset>
+      <label class="zaskrt"><input type="checkbox" name="souhlas" value="ano" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
       <button class="tlacitko" type="submit">Poptat opravu</button>
       <p class="stav" role="status"></p>
     </form>
   </main>
-  <section class="panel-zeleny">
-    <div class="obal">
-      <h2>Má váš chladírenský vůz poruchu?</h2>
-      <p>Zavolejte nebo napište. Domluvíme termín a navrhneme řešení.</p>
-      <a class="tlacitko" data-zavolat href="kontakt.html">Zavolat [telefon]</a>
-    </div>
-  </section>
   <footer id="paticka"></footer>
   <script src="js/config.js"></script>
   <script src="js/produkty.js"></script>
