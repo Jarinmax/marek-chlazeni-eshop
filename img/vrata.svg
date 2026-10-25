@@ -1,33 +1,40 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 520 470" role="img" aria-labelledby="t d">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 360 330" role="img" aria-labelledby="t d">
   <title id="t">Vrata dílny CO₂ Klima</title>
-  <desc id="d">Nákres sekčních vrat dílny: šířka 3,58 m, výška 3,90 m.</desc>
+  <desc id="d">Nákres vjezdových vrat dílny: šířka 3,58 m, výška 3,90 m.</desc>
   <defs>
-    <marker id="s" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <marker id="s" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M0 0 L10 5 L0 10 z" fill="#6cc70a"/>
     </marker>
+    <linearGradient id="podlaha" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#2a2a2a"/><stop offset="1" stop-color="#4a4a4a"/>
+    </linearGradient>
+    <linearGradient id="strop" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#0d0d0d"/><stop offset="1" stop-color="#1e1e1e"/>
+    </linearGradient>
   </defs>
-  <!-- stěna -->
-  <rect x="20" y="20" width="420" height="390" fill="#151515" stroke="#2c2c2c" stroke-width="2"/>
-  <!-- vrata -->
-  <g transform="translate(70 60)">
-    <rect width="320" height="350" fill="#1f1f1f" stroke="#bdbfb7" stroke-width="3"/>
-    <g stroke="#3a3a3a" stroke-width="2">
-      <line x1="0" y1="58" x2="320" y2="58"/><line x1="0" y1="116" x2="320" y2="116"/>
-      <line x1="0" y1="175" x2="320" y2="175"/><line x1="0" y1="233" x2="320" y2="233"/>
-      <line x1="0" y1="291" x2="320" y2="291"/>
-    </g>
-    <rect x="135" y="315" width="50" height="8" rx="3" fill="#bdbfb7"/>
-  </g>
-  <!-- podlaha -->
-  <line x1="0" y1="410" x2="520" y2="410" stroke="#bdbfb7" stroke-width="3"/>
   <!-- šířka -->
-  <line x1="70" y1="432" x2="390" y2="432" stroke="#6cc70a" stroke-width="3" marker-start="url(#s)" marker-end="url(#s)"/>
-  <rect x="160" y="414" width="140" height="36" rx="6" fill="#000"/>
-  <text x="230" y="441" fill="#fff" font-family="Lexend, Arial, sans-serif" font-size="26" font-weight="700" text-anchor="middle">3,58 m</text>
-  <!-- výška -->
-  <line x1="470" y1="60" x2="470" y2="410" stroke="#6cc70a" stroke-width="3" marker-start="url(#s)" marker-end="url(#s)"/>
-  <g transform="translate(470 235) rotate(-90)">
-    <rect x="-70" y="-18" width="140" height="36" rx="6" fill="#000"/>
-    <text x="0" y="9" fill="#fff" font-family="Lexend, Arial, sans-serif" font-size="26" font-weight="700" text-anchor="middle">3,90 m</text>
+  <line x1="42" y1="18" x2="282" y2="18" stroke="#6cc70a" stroke-width="3" marker-start="url(#s)" marker-end="url(#s)"/>
+  <!-- otvor vrat (poměr 3,58 : 3,90) -->
+  <g>
+    <rect x="42" y="38" width="240" height="262" fill="url(#strop)"/>
+    <!-- pohled do dílny -->
+    <polygon points="42,300 282,300 222,200 102,200" fill="url(#podlaha)"/>
+    <polygon points="42,38 102,110 102,200 42,300" fill="#181818"/>
+    <polygon points="282,38 222,110 222,200 282,300" fill="#181818"/>
+    <rect x="102" y="110" width="120" height="90" fill="#262626"/>
+    <g fill="#9fb3c8" opacity=".55">
+      <rect x="132" y="128" width="16" height="40"/><rect x="152" y="128" width="16" height="40"/><rect x="172" y="128" width="16" height="40"/>
+    </g>
+    <g stroke="#e8e8e8" stroke-width="3" stroke-linecap="round" opacity=".85">
+      <line x1="80" y1="62" x2="118" y2="62"/><line x1="206" y1="62" x2="244" y2="62"/>
+      <line x1="110" y1="88" x2="136" y2="88"/><line x1="188" y1="88" x2="214" y2="88"/>
+    </g>
+    <g stroke="#e0c341" stroke-width="2" opacity=".7">
+      <line x1="122" y1="300" x2="146" y2="200"/><line x1="202" y1="300" x2="178" y2="200"/>
+    </g>
+    <rect x="42" y="38" width="240" height="262" fill="none" stroke="#6cc70a" stroke-width="5"/>
   </g>
+  <!-- výška -->
+  <line x1="316" y1="38" x2="316" y2="300" stroke="#6cc70a" stroke-width="3" marker-start="url(#s)" marker-end="url(#s)"/>
+  <line x1="0" y1="302" x2="360" y2="302" stroke="#5a5a5a" stroke-width="2"/>
 </svg>

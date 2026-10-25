@@ -34,6 +34,16 @@ uložené v `fonts/` (žádné Google Fonts).
   výchozí texty tlačítek/adres). Při změně kontaktů upravit `config.js` i tyto výskyty
   (`grep -rn "734 112 681\|Vitice 119" *.html`).
 
+## Úvodní stránka (Markův grafický návrh)
+
+- Úvod přes celou šířku: nadtitul, nadpis „Servis chladírenských vozů, klimatizací a elektroinstalací“,
+  tlačítka Zavolat / Nezávazně poptat servis; vpravo karta „Vejde se vaše vozidlo do naší dílny?“
+  (nákres `img/vrata.svg` + kóty + zelené dlaždice MAX. ŠÍŘKA / VÝŠKA + „Nejste si jistí? Zavolejte nám“).
+- Pod úvodem pruh služeb s ikonami + dlaždice z `CONFIG.vyhody` (`potvrzeno: false` = jen v pracovní
+  verzi se štítkem „k potvrzení“; text „dlouholeté zkušenosti“ čeká na Markovo potvrzení).
+- Fotka v pozadí úvodu: `CONFIG.uvod.fotoPozadi` (jen skutečná fotka – ne vygenerovaná / s cizími značkami).
+- Hlavička: znak `img/znak.webp` + text „CO2klima“ + podtitul (skrývá se pod 1320 px).
+
 ## Formuláře
 
 - Jediná funkce `odesliPozadavek`. `CONFIG.formular.endpoint: null` = NENÍ napojeno:

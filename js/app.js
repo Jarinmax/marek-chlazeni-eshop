@@ -56,8 +56,12 @@
     const aria = (id) => (id === aktivni ? ' aria-current="page"' : '');
     el.innerHTML = `
       <div class="obal hlavicka">
-        <a class="logo" href="index.html"><img src="img/logo-maly.webp" width="240" height="165" alt="${esc(F.znacka)} – úvod"></a>
-        <a class="hlavicka-tel" href="${telOdkaz}" aria-label="Zavolat ${esc(F.telefon)}">${esc(F.telefon)}</a>
+        <a class="logo logo-radek" href="index.html" aria-label="${esc(F.znacka)} – úvod">
+          <img src="img/znak.webp" width="160" height="154" alt="">
+          <span class="logo-text" aria-hidden="true">CO<span class="dva">2</span>klima</span>
+        </a>
+        <span class="logo-podtitul">${esc(F.podtitul)}</span>
+        <a class="hlavicka-tel" href="${telOdkaz}" aria-label="Zavolat ${esc(F.telefon)}"><svg class="ikona" viewBox="0 0 24 24" aria-hidden="true"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg><span>${esc(F.telefon)}</span></a>
         <button class="menu-tlacitko" aria-expanded="false" aria-controls="menu">Menu</button>
         <nav id="menu" class="menu" aria-label="Hlavní menu">
           ${MENU.map(([h, id, t]) => `<a href="${h}"${aria(id)}>${t}</a>`).join('')}
@@ -106,7 +110,21 @@
     document.querySelectorAll('[data-firma]').forEach((el) => { el.innerHTML = firma(el.dataset.firma); });
     document.querySelectorAll('[data-zavolat]').forEach((el) => {
       el.href = telOdkaz;
-      el.textContent = 'Zavolat ' + F.telefon;
+      // data-zavolat="kratce" = tlačítko s ikonou, text se nemění (číslo jen pro čtečky)
+      if (el.dataset.zavolat === 'kratce') el.setAttribute('aria-label', 'Zavolat ' + F.telefon);
+      else el.textContent = 'Zavolat ' + F.telefon;
+    });
+    const hero = document.querySelector('[data-uvod-hero]');
+    if (hero && C.uvod && C.uvod.fotoPozadi) {
+      hero.classList.add('s-fotkou');
+      hero.style.backgroundImage = `linear-gradient(90deg, rgba(0,0,0,.94) 0%, rgba(0,0,0,.72) 50%, rgba(0,0,0,.35) 100%), url("${encodeURI(C.uvod.fotoPozadi)}")`;
+    }
+    document.querySelectorAll('[data-vyhody]').forEach((el) => {
+      const ikona = '<svg class="ikona-velka" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>';
+      el.outerHTML = (C.vyhody || []).filter((v) => v.potvrzeno || C.pracovniVerze).map((v) => `
+        <div class="pruh-polozka${v.potvrzeno ? '' : ' k-potvrzeni'}">${ikona}
+          <div><h3>${esc(v.nadpis)}</h3><p>${esc(v.text)}</p>${v.potvrzeno ? '' : '<span class="stitek-potvrzeni">k potvrzení</span>'}</div>
+        </div>`).join('');
     });
     document.querySelectorAll('[data-telefon]').forEach((el) => { el.innerHTML = `<a href="${telOdkaz}">${esc(F.telefon)}</a>`; });
     document.querySelectorAll('[data-email]').forEach((el) => { el.innerHTML = `<a href="${mailOdkaz}">${esc(F.email)}</a>`; });

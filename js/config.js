@@ -18,7 +18,7 @@ window.CONFIG = {
   // ---------------------------------------------------------------- Firma
   firma: {
     znacka: 'CO₂ Klima',
-    podtitul: 'Servis chladírenských vozů, klimatizace, elektro',
+    podtitul: 'Servis chlazení, klimatizací a chladírenských vozů',
     nazev: null,                  // obchodní jméno držitele IČO (zatím nepotvrzeno)
     ico: '88662250',
     dic: null,
@@ -37,6 +37,18 @@ window.CONFIG = {
     vrata: { sirka: '3,58 m', vyska: '3,90 m' },
     fotoVrat: null, // např. 'img/vrata.jpg' – fotka nahradí kreslený obrázek vrat
   },
+
+  // ---------------------------------------------------------------- Úvodní stránka
+  uvod: {
+    // Skutečná fotka do pozadí úvodu (např. vůz u vrat dílny), např. 'img/uvod.jpg'.
+    // null = tmavé pozadí ve stylu webu. Nepoužívat cizí / vygenerované fotky se značkami.
+    fotoPozadi: null,
+  },
+  // Dlaždice za službami v pruhu pod úvodem. potvrzeno: false = text čeká na Markovo
+  // potvrzení – v pracovní verzi se ukáže se štítkem „k potvrzení“, v ostré se neukáže.
+  vyhody: [
+    { nadpis: 'Rychlý a spolehlivý servis', text: 'Flexibilní přístup, kvalitní práce a dlouholeté zkušenosti.', potvrzeno: false },
+  ],
 
   // ---------------------------------------------------------------- Ceník
   // Skupiny podle služeb. cena: text (např. '1 200 Kč / hod') nebo null.
