@@ -3,49 +3,49 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Košík – CO2klima</title>
-  <meta name="description" content="Košík e-shopu CO2klima.">
+  <title>Košík – CO₂ Klima</title>
+  <meta name="description" content="Košík – CO₂ Klima.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:site_name" content="CO₂ Klima">
+  <meta property="og:title" content="Košík – CO₂ Klima">
+  <meta property="og:description" content="Košík – CO₂ Klima.">
   <meta name="theme-color" content="#000000">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" href="img/logo-maly.png">
+  <link rel="preload" href="fonts/lexend-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styl.css">
 </head>
 <body data-stranka="kosik">
+  <a class="preskocit" href="#obsah">Přeskočit na obsah</a>
   <header id="hlavicka"></header>
-  <main class="obal">
+  <main id="obsah" class="obal">
     <h1>Košík</h1>
     <div id="kosik"></div>
-    <form id="objednavka" class="formular" hidden>
+    <form id="objednavka" class="formular" data-formular="objednavka" data-predmet="Objednávka z webu CO₂ Klima" hidden>
+      <p class="stav-napojeni" data-stav-napojeni hidden></p>
+      <input type="hidden" name="polozky">
       <fieldset>
         <legend>Kontakt na vás</legend>
         <div class="radek">
-          <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
-          <label>Telefon<input name="telefon" type="tel" required autocomplete="tel"></label>
+          <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name" maxlength="120"></label>
+          <label>Telefon<input name="telefon" type="tel" required autocomplete="tel" inputmode="tel" maxlength="20" placeholder="+420 …"></label>
         </div>
         <div class="radek">
-          <label>E-mail <span class="nepovinne">(nepovinné)</span><input name="email" type="email" autocomplete="email"></label>
-          <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
+          <label>E-mail <span class="nepovinne">(nepovinné)</span><input name="email" type="email" autocomplete="email" maxlength="120"></label>
+          <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric" maxlength="12"></label>
         </div>
       </fieldset>
-      <fieldset>
-        <legend>Doručení a platba</legend>
-        <label>Adresa doručení<input name="adresa" autocomplete="street-address"></label>
-        <div class="radek">
-          <label>Doprava<select name="doprava"></select></label>
-          <label>Platba<select name="platba"></select></label>
-        </div>
-        <label>Poznámka <span class="nepovinne">(nepovinné)</span><textarea name="poznamka"></textarea></label>
-      </fieldset>
-      <label class="zaskrt"><input type="checkbox" name="souhlas" value="ano" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
+      <label>Poznámka <span class="nepovinne">(nepovinné)</span><textarea name="poznamka" maxlength="3000"></textarea></label>
+      <label class="zaskrt"><input type="checkbox" name="souhlas" value="ano" required> <span>Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku podle <a href="zasady-ochrany-osobnich-udaju.html" target="_blank">zásad ochrany osobních údajů</a>.</span></label>
+      <p class="souhrn-chyb" role="alert" hidden></p>
       <button class="tlacitko" type="submit">Odeslat objednávku</button>
-      <p class="stav" role="status"></p>
+      <div class="stav" role="status" aria-live="polite"></div>
     </form>
   </main>
   <footer id="paticka"></footer>
-  <script src="js/config.js"></script>
-  <script src="js/produkty.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/config.js" defer></script>
+  <script src="js/produkty.js" defer></script>
+  <script src="js/app.js" defer></script>
 </body>
 </html>

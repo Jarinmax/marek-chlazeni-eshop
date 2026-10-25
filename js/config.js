@@ -1,68 +1,107 @@
-// Nastavení webu CO2klima – všechny údaje, které se před spuštěním doplňují, jsou tady.
+// ============================================================================
+//  CO₂ Klima – OBSAH A NASTAVENÍ WEBU NA JEDNOM MÍSTĚ
+// ============================================================================
+//  Tady se upravují kontakty, ceník, fotogalerie i reference. HTML stránky
+//  není potřeba měnit.
 //
-// PRAVIDLO: null = zatím nepotvrzeno. Web pak místo hodnoty ukáže pracovní pole
-// v hranatých závorkách (např. „[telefon]“), zvýrazněné žlutě. Stačí null přepsat
-// skutečnou hodnotou a pole se na celém webu doplní samo.
+//  PRAVIDLO: null = zatím nepotvrzeno.
+//   - V pracovní verzi (pracovniVerze: true) se místo údaje ukáže žluté pole „[popisek]“.
+//   - V ostré verzi (pracovniVerze: false) se nepotvrzený údaj skryje nebo se
+//     zobrazí neutrální text (u cen „na dotaz“).
+//  Nikdy sem nedávat hesla ani tajné klíče.
+// ============================================================================
 window.CONFIG = {
-  // true = nahoře se ukáže pruh „Pracovní verze“ a vyhledávače web neindexují.
-  // Před ostrým spuštěním přepnout na false.
+  // true = pruh „Pracovní verze“ nahoře a stránky se neindexují (viz i robots.txt).
+  // Před ostrým spuštěním přepnout na false (a upravit robots.txt).
   pracovniVerze: true,
 
+  // ---------------------------------------------------------------- Firma
   firma: {
-    znacka: 'CO2klima',
-    podtitul: 'Servis a opravy chladírenských vozů',
-    nazev: null,         // obchodní název podle živnosti / obchodního rejstříku
-    ico: null,
+    znacka: 'CO₂ Klima',
+    podtitul: 'Servis chladírenských vozů, klimatizace, elektro',
+    nazev: null,                  // obchodní jméno držitele IČO (zatím nepotvrzeno)
+    ico: '88662250',
     dic: null,
-    adresa: null,        // adresa dílny
-    telefon: null,       // např. '+420 777 123 456'
-    email: 'info@co2klima.cz', // z Markova návrhu – před spuštěním ověřit, že schránka existuje
-    oteviraciDoba: null,
-    oblast: null,        // kde jezdíme k vozům / odkud vozy přijímáme
+    telefon: '+420 734 112 681',  // zobrazení
+    telefonOdkaz: '+420734112681', // pro odkaz tel:
+    email: 'info@co2klima.cz',
+    oteviraciDoba: 'Dle telefonické domluvy',
+    oblast: null,
   },
 
-  // Odesílání formulářů (oprava, poptávka, objednávka).
-  // endpoint: null = zatím nenapojeno. Formulář se vyplní a zkontroluje, ale nikam se
-  // neodešle a zákazník uvidí výzvu, ať zavolá nebo napíše.
-  // Po rozhodnutí sem stačí dát URL, která přijímá POST s multipart/form-data
-  // (formulářová služba nebo vlastní funkce). Fotky se posílají jako soubory v poli „fotky“.
+  // ---------------------------------------------------------------- Dílna
+  dilna: {
+    adresaRadky: ['CO₂ Klima', 'areál Zahradnictví Jandl', 'Vitice 119', '281 06 Vitice'],
+    upresneni: 'Skleníkový areál vedle Zahradního bistra Begina.',
+    mapa: 'https://mapy.cz/zakladni?q=Vitice%20119%2C%20281%2006%20Vitice', // jen odkaz, mapa se nevkládá (žádné cookies třetích stran)
+    vrata: { sirka: '3,58 m', vyska: '3,90 m' },
+    fotoVrat: null, // např. 'img/vrata.jpg' – fotka nahradí kreslený obrázek vrat
+  },
+
+  // ---------------------------------------------------------------- Ceník
+  // Skupiny podle služeb. cena: text (např. '1 200 Kč / hod') nebo null.
+  // Zatím žádné ceny nejsou potvrzené – nevymýšlet.
+  cenik: [
+    { skupina: 'Chladírenské vozy', polozky: [
+      { polozka: 'Servis chladicí jednotky', cena: null },
+      { polozka: 'Diagnostika závady', cena: null },
+      { polozka: 'Opravy', cena: null },
+      { polozka: 'Údržba', cena: null },
+    ] },
+    { skupina: 'Klimatizace', polozky: [
+      { polozka: 'Montáž', cena: null },
+      { polozka: 'Servis a údržba', cena: null },
+      { polozka: 'Opravy', cena: null },
+    ] },
+    { skupina: 'Elektro', polozky: [
+      { polozka: 'Elektroinstalační práce', cena: null },
+      { polozka: 'Diagnostika a odstraňování závad', cena: null },
+    ] },
+  ],
+  cenikPoznamka: null, // např. 'Ceny jsou uvedeny bez DPH.' – doplnit podle Marka
+
+  // ---------------------------------------------------------------- Fotogalerie
+  // Fotky nahrát do složky img/galerie/ a přidat sem řádek:
+  //   { soubor: 'img/galerie/oprava-agregatu.jpg', popis: 'Oprava agregátu', kategorie: 'vozy' },
+  // kategorie: 'vozy' | 'klimatizace' | 'elektro'
+  galerie: [],
+
+  // ---------------------------------------------------------------- Reference
+  // { text: 'Rychlá oprava, vůz jel ještě ten den.', autor: 'Jméno / firma' }
+  reference: [],
+
+  // ---------------------------------------------------------------- Formuláře
+  // endpoint: null = odesílání NENÍ napojené. Formulář se zkontroluje, ale nic se
+  // neodešle a zákazník to jasně uvidí (nikdy falešné „odesláno“).
+  // Napojení: URL, která přijímá POST multipart/form-data (formulářová služba nebo
+  // vlastní funkce). Fotky jdou jako soubory v poli „fotky“.
   formular: {
     endpoint: null,
     maxFotek: 5,
     maxVelikostFotkyMB: 10,
+    povoleneTypy: ['image/jpeg', 'image/png', 'image/webp', 'image/heic', 'image/heif'],
+    povolenePripony: ['jpg', 'jpeg', 'png', 'webp', 'heic', 'heif'],
   },
 
+  // ---------------------------------------------------------------- Cookies a analytika
+  // null = web nepoužívá žádné nepovinné cookies ani analytiku a lištu nezobrazuje.
+  // Až bude analytika, vyplnit např. { nazev: 'Google Analytics', skript: 'https://…' }.
+  // Skript se načte AŽ po souhlasu návštěvníka.
+  analytika: null,
+
+  // ---------------------------------------------------------------- Obchod (zaparkovaný)
+  // Obchod není v menu. Stránky obchod/kosik/poptavka zůstávají připravené na později.
   obchod: {
-    // false = obchod je jen katalog: bez košíku, u položek je „Poptat“.
-    // true = zapne košík a objednávky (vyžaduje skutečné ceny, dopravu, platby a napojený formulář).
     objednavky: false,
-    // Pracovní – o dopravě a platbách rozhodne Marek. Používá se jen při objednavky: true.
     doprava: [
       { id: 'osobne', nazev: 'Osobní odběr v dílně', cena: null },
-      { id: 'kuryr', nazev: 'Doručení kurýrem', cena: null },
     ],
     platba: [
       { id: 'prevod', nazev: 'Bankovním převodem' },
     ],
     kategorie: [
       { id: 'dily', nazev: 'Náhradní díly' },
-      { id: 'zarizeni', nazev: 'Agregáty a nástavby' },
+      { id: 'zarizeni', nazev: 'Zařízení' },
     ],
   },
-
-  // Ceník služeb. cena: null = pracovní pole „[cena]“. Položky jsou pracovní, Marek je upraví.
-  cenik: [
-    { polozka: 'Hodinová sazba servisu', cena: null },
-    { polozka: 'Diagnostika závady', cena: null },
-    { polozka: 'Výjezd technika', cena: null },
-  ],
-
-  // Reference: [{ text: '…', autor: '…' }]. Prázdné = pracovní pole.
-  reference: [],
-
-  // Značky agregátů, se kterými Marek pracuje, např. ['…', '…']. null = pracovní pole.
-  znackyAgregatu: null,
-
-  // Doplňková oblast do budoucna (chlazení pro kavárny a gastro). Zatím skryto.
-  zobrazitGastro: false,
 };

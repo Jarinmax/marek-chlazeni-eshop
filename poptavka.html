@@ -3,50 +3,57 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Poptávka dílu nebo zařízení – CO2klima</title>
-  <meta name="description" content="Poptávka náhradního dílu, chladicího agregátu nebo nástavby.">
+  <title>Poptávka dílu – CO₂ Klima</title>
+  <meta name="description" content="Poptávka náhradního dílu nebo zařízení – CO₂ Klima.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:site_name" content="CO₂ Klima">
+  <meta property="og:title" content="Poptávka dílu – CO₂ Klima">
+  <meta property="og:description" content="Poptávka náhradního dílu nebo zařízení – CO₂ Klima.">
   <meta name="theme-color" content="#000000">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" href="img/logo-maly.png">
+  <link rel="preload" href="fonts/lexend-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styl.css">
 </head>
 <body data-stranka="poptavka">
+  <a class="preskocit" href="#obsah">Přeskočit na obsah</a>
   <header id="hlavicka"></header>
-  <main class="obal">
+  <main id="obsah" class="obal">
     <h1>Poptávka dílu nebo zařízení</h1>
-    <p class="uvod-text">Sháníte náhradní díl, nový agregát nebo nástavbu? Napište nám a připravíme nabídku. Pro opravu vozu použijte <a href="servis.html">poptávku opravy</a>.</p>
-    <form id="poptavka" class="formular">
+    <p class="uvod-text">Sháníte díl nebo zařízení? Napište nám. Pro servis použijte <a href="servis.html">poptávku servisu</a>.</p>
+    <form id="poptavka" class="formular" data-formular="poptavka" data-predmet="Poptávka dílu z webu CO₂ Klima">
+      <p class="stav-napojeni" data-stav-napojeni hidden></p>
       <fieldset>
         <legend>Co poptáváte</legend>
-        <label>Díl nebo zařízení<input name="predmet" required></label>
-        <label>Podrobnosti <span class="nepovinne">(vůz, typ agregátu, počet kusů…)</span><textarea name="popis" required></textarea></label>
-        <label>Fotky <span class="nepovinne">(nepovinné – starý díl, štítek agregátu)</span>
-          <input type="file" name="fotky" accept="image/*" multiple>
-          <span class="napoveda" data-limit-fotek></span>
+        <label>Díl nebo zařízení<input name="predmet" required maxlength="160"></label>
+        <label>Podrobnosti<textarea name="popis" required maxlength="3000"></textarea></label>
+        <label>Fotky (starý díl, štítek) <span class="nepovinne">(nepovinné)</span>
+          <input type="file" name="fotky" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" multiple>
+          <span class="napoveda" data-limit-fotek>Nejvýše 5 fotek, každá do 10 MB.</span>
         </label>
-        <div class="nahledy"></div>
+        <div class="nahledy" aria-live="polite"></div>
       </fieldset>
       <fieldset>
         <legend>Kontakt na vás</legend>
         <div class="radek">
-          <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
-          <label>Telefon<input name="telefon" type="tel" required autocomplete="tel"></label>
+          <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name" maxlength="120"></label>
+          <label>Telefon<input name="telefon" type="tel" required autocomplete="tel" inputmode="tel" maxlength="20" placeholder="+420 …"></label>
         </div>
         <div class="radek">
-          <label>E-mail <span class="nepovinne">(nepovinné)</span><input name="email" type="email" autocomplete="email"></label>
-          <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
+          <label>E-mail <span class="nepovinne">(nepovinné)</span><input name="email" type="email" autocomplete="email" maxlength="120"></label>
+          <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric" maxlength="12"></label>
         </div>
       </fieldset>
-      <label class="zaskrt"><input type="checkbox" name="souhlas" value="ano" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
+      <label class="zaskrt"><input type="checkbox" name="souhlas" value="ano" required> <span>Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku podle <a href="zasady-ochrany-osobnich-udaju.html" target="_blank">zásad ochrany osobních údajů</a>.</span></label>
+      <p class="souhrn-chyb" role="alert" hidden></p>
       <button class="tlacitko" type="submit">Odeslat poptávku</button>
-      <p class="stav" role="status"></p>
+      <div class="stav" role="status" aria-live="polite"></div>
     </form>
   </main>
   <footer id="paticka"></footer>
-  <script src="js/config.js"></script>
-  <script src="js/produkty.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/config.js" defer></script>
+  <script src="js/produkty.js" defer></script>
+  <script src="js/app.js" defer></script>
 </body>
 </html>

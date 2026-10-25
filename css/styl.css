@@ -1,4 +1,11 @@
-/* Vizuál CO2klima podle Markova návrhu: černé pozadí, limetková zelená, výrazné bílé nadpisy. */
+/* Vizuál CO₂ Klima podle Markova návrhu: černé pozadí, limetková zelená, výrazné bílé nadpisy. */
+/* Písmo Lexend je uložené přímo na webu (fonts/, licence OFL) – žádné načítání z Google. */
+@font-face { font-family: "Lexend"; font-style: normal; font-display: swap; font-weight: 100 900;
+  src: url("../fonts/lexend-latin-ext-wght-normal.woff2") format("woff2");
+  unicode-range: U+0100-02AF,U+0304,U+0308,U+0329,U+1E00-1E9F,U+1EF2-1EFF,U+2020,U+20A0-20AB,U+20AD-20C0,U+2113,U+2C60-2C7F,U+A720-A7FF; }
+@font-face { font-family: "Lexend"; font-style: normal; font-display: swap; font-weight: 100 900;
+  src: url("../fonts/lexend-latin-wght-normal.woff2") format("woff2");
+  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD; }
 :root {
   --pozadi: #000000;
   --plocha: #111111;
@@ -14,6 +21,10 @@
 }
 
 * { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+img { max-width: 100%; }
+:focus-visible { outline: 3px solid var(--zelena); outline-offset: 2px; }
 body {
   margin: 0;
   font-family: "Lexend", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
@@ -32,13 +43,16 @@ main.obal { padding-top: 28px; padding-bottom: 56px; }
 .logo { display: flex; align-items: center; text-decoration: none; }
 .logo img { height: 52px; width: auto; display: block; }
 .menu { display: flex; gap: 4px; flex-wrap: wrap; }
-.menu a { padding: 8px 12px; border-radius: 8px; text-decoration: none; color: var(--text); font-weight: 500; }
+.menu a { padding: 8px 10px; border-radius: 8px; text-decoration: none; color: var(--text); font-weight: 500; }
 .menu a:hover { color: var(--zelena); }
 .menu a[aria-current="page"] { color: var(--zelena); box-shadow: inset 0 -2px 0 var(--zelena); border-radius: 0; }
 .menu-tlacitko { display: none; }
 .odznak { background: var(--zelena); color: var(--na-zelene); border-radius: 99px; padding: 0 7px; font-size: .8rem; font-weight: 700; margin-left: 4px; }
 
-@media (max-width: 760px) {
+.hlavicka-tel { margin-left: auto; color: #fff; font-weight: 700; text-decoration: none; white-space: nowrap; }
+.hlavicka-tel:hover { color: var(--zelena); }
+@media (min-width: 1181px) { .hlavicka-tel { display: none; } }
+@media (max-width: 1180px) {
   .menu-tlacitko { display: block; background: none; border: 2px solid var(--zelena); border-radius: 8px; padding: 6px 14px; color: var(--text); font: inherit; font-weight: 600; }
   .menu { display: none; width: 100%; flex-direction: column; padding-bottom: 12px; }
   .menu.otevreno { display: flex; }
@@ -46,7 +60,7 @@ main.obal { padding-top: 28px; padding-bottom: 56px; }
 
 /* Úvod */
 .hero { padding: 8px 0 32px; }
-.hero-logo { display: block; width: min(420px, 100%); height: auto; margin: 0 auto 24px; }
+.hero-logo { display: block; width: min(360px, 80%); height: auto; margin: 0 auto 24px; }
 .hero h1 { margin: 0 0 16px; font-size: clamp(2rem, 6vw, 3.2rem); max-width: 760px; }
 .hero p { max-width: 640px; font-size: 1.15rem; color: var(--tlumeny); margin: 0; }
 .rozcestnik { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; margin: 40px 0; }
@@ -159,7 +173,7 @@ textarea { min-height: 120px; resize: vertical; }
 .menu a.menu-cta { padding: 8px 16px; font-size: .95rem; color: var(--na-zelene); margin-left: 8px; }
 .menu a.menu-cta:hover { color: var(--na-zelene); }
 .menu a.menu-cta[aria-current="page"] { box-shadow: none; border-radius: 8px; color: var(--na-zelene); }
-@media (max-width: 760px) {
+@media (max-width: 1180px) {
   .menu { align-items: stretch; }
   .menu a.menu-cta { margin: 8px 0 0; }
 }
@@ -200,3 +214,95 @@ button[disabled] { opacity: .6; cursor: wait; }
 .reference { background: var(--plocha); border: 1px solid var(--okraj); border-radius: var(--radius); padding: 20px; margin: 0 0 16px; }
 .reference blockquote { margin: 0 0 8px; }
 .reference figcaption { color: var(--tlumeny); }
+
+/* Úvod – tlačítka a krátké představení */
+.hero-sluzby { color: var(--zelena); font-weight: 600; letter-spacing: .02em; margin: 0 0 12px !important; font-size: 1rem !important; }
+
+/* Dílna – „Vejde se vaše vozidlo do naší dílny?“ */
+.vrata { display: grid; grid-template-columns: 1fr; gap: 24px; align-items: center; background: var(--plocha); border: 1px solid var(--okraj); border-top: 4px solid var(--zelena); border-radius: var(--radius); padding: 28px 22px; }
+.vrata h2 { margin: 0 0 16px; font-size: clamp(1.6rem, 4.5vw, 2.3rem); }
+.rozmery { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin: 0 0 16px; }
+.rozmer { background: var(--pozadi); border: 1px solid var(--okraj); border-radius: var(--radius); padding: 14px 16px; }
+.rozmer dt { color: var(--tlumeny); font-size: .95rem; }
+.rozmer dd { margin: 2px 0 0; font-size: clamp(2.2rem, 7vw, 3.4rem); font-weight: 700; color: var(--zelena); line-height: 1.05; white-space: nowrap; }
+.vrata .poznamka { color: var(--tlumeny); margin: 0; }
+.vrata-obrazek { width: 100%; max-width: 460px; height: auto; justify-self: center; }
+@media (min-width: 820px) { .vrata { grid-template-columns: 1.1fr .9fr; padding: 36px; } }
+
+/* Služby na úvodu – chladírenské vozy jako hlavní */
+.sluzby-mrizka { display: grid; gap: 16px; grid-template-columns: 1fr; }
+.sluzby-mrizka a { display: block; background: var(--plocha); border: 1px solid var(--okraj); border-radius: var(--radius); padding: 22px; text-decoration: none; color: var(--text); transition: border-color .15s; }
+.sluzby-mrizka a:hover { border-color: var(--zelena); }
+.sluzby-mrizka h3 { margin: 0 0 8px; font-size: 1.25rem; }
+.sluzby-mrizka p { margin: 0; color: var(--tlumeny); }
+.sluzby-mrizka .hlavni { border-color: var(--zelena); background: linear-gradient(135deg, #142106, var(--plocha) 60%); }
+.sluzby-mrizka .hlavni h3 { font-size: clamp(1.4rem, 3.5vw, 1.8rem); }
+.sluzby-mrizka .vice { display: inline-block; margin-top: 12px; color: var(--zelena); font-weight: 600; }
+@media (min-width: 760px) { .sluzby-mrizka { grid-template-columns: 1fr 1fr; } .sluzby-mrizka .hlavni { grid-column: 1 / -1; } }
+
+/* Adresa dílny */
+.adresa { display: grid; gap: 16px; grid-template-columns: 1fr; }
+@media (min-width: 760px) { .adresa { grid-template-columns: 1fr 1fr; } }
+.adresa .karta-info { background: var(--plocha); border: 1px solid var(--okraj); border-radius: var(--radius); padding: 22px; }
+.adresa h3 { margin: 0 0 10px; }
+.adresa p { margin: 0 0 10px; }
+.tlumene { color: var(--tlumeny); }
+
+/* Stránky služeb */
+.seznam-sluzeb { list-style: none; padding: 0; margin: 0 0 24px; display: grid; gap: 10px; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.seznam-sluzeb li { background: var(--plocha); border: 1px solid var(--okraj); border-left: 4px solid var(--zelena); border-radius: var(--radius); padding: 16px 18px; font-weight: 600; }
+
+/* Formulář – stav napojení, chyby, výsledek */
+.stav-napojeni { background: #1d1606; border: 1px solid #3a2c0c; color: var(--varovani); border-radius: 8px; padding: 12px 14px; font-size: .95rem; }
+.stav-napojeni strong { color: var(--varovani); }
+.stav-napojeni a, .stav.upozorneni a { color: #fff; }
+.chyba { color: #ff8a7a; font-weight: 500; font-size: .9rem; }
+[aria-invalid="true"] { border-color: #ff8a7a !important; }
+.souhrn-chyb { margin: 0; color: #ff8a7a; font-weight: 600; }
+.stav.upozorneni { background: #1d1606; border: 1px solid #3a2c0c; border-radius: 8px; padding: 12px 14px; font-weight: 400; }
+.stav.uspech { background: #142106; border: 1px solid var(--zelena); border-radius: 8px; padding: 12px 14px; }
+.nahled-soubor { background: var(--pozadi); border: 1px solid var(--okraj); border-radius: 8px; padding: 6px 10px; font-size: .85rem; }
+
+/* Ceník */
+.cenik-skupina { margin-bottom: 28px; max-width: 760px; }
+.cenik-skupina h2 { font-size: 1.3rem; margin: 0 0 10px; color: var(--zelena); }
+.cenik-skupina td:last-child { text-align: right; white-space: nowrap; font-weight: 600; }
+@media (max-width: 600px) { .cenik-skupina .tabulka thead { display: table-header-group; } .cenik-skupina .tabulka tr { display: table-row; } .cenik-skupina .tabulka td { padding: 10px 12px; border-bottom: 1px solid var(--okraj); } }
+
+/* Fotogalerie */
+.galerie-mrizka { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); margin-top: 16px; }
+.galerie-polozka { position: relative; padding: 0; border: 1px solid var(--okraj); border-radius: var(--radius); overflow: hidden; background: var(--plocha); cursor: zoom-in; aspect-ratio: 4 / 3; }
+.galerie-polozka img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.galerie-polozka span { position: absolute; left: 0; right: 0; bottom: 0; padding: 8px 10px; background: rgba(0, 0, 0, .75); color: #fff; font: inherit; font-size: .85rem; text-align: left; }
+.lightbox { background: #000; color: #fff; border: 1px solid var(--okraj); border-radius: var(--radius); padding: 12px; max-width: min(96vw, 1100px); }
+.lightbox::backdrop { background: rgba(0, 0, 0, .85); }
+.lightbox img { display: block; max-height: 80vh; width: auto; margin: 0 auto; }
+.lightbox p { margin: 8px 0 0; color: var(--tlumeny); }
+.lightbox-zavrit { position: absolute; top: 8px; right: 8px; background: #000; color: #fff; border: 1px solid var(--okraj); border-radius: 50%; width: 36px; height: 36px; cursor: pointer; }
+
+/* Patička – právní řádek */
+.paticka { grid-template-columns: 1fr 1fr; }
+.paticka-pravni { grid-column: 1 / -1; display: flex; flex-wrap: wrap; gap: 8px 20px; border-top: 1px solid var(--okraj); padding-top: 16px; font-size: .9rem; }
+.odkaz { background: none; border: none; color: var(--tlumeny); font: inherit; padding: 0; cursor: pointer; text-decoration: underline; }
+@media (min-width: 761px) { .paticka { grid-template-columns: 1.4fr 1.2fr 1fr; } }
+
+/* Lišta cookies (jen když je v config.js nastavená analytika) */
+#cookies-lista { position: fixed; left: 16px; right: 16px; bottom: 16px; z-index: 50; max-width: 640px; margin: 0 auto; background: var(--plocha); border: 1px solid var(--zelena); border-radius: var(--radius); padding: 16px 18px; box-shadow: 0 8px 30px rgba(0, 0, 0, .6); }
+#cookies-lista p { margin: 0; color: var(--tlumeny); }
+#cookies-lista .akce { margin-top: 12px; }
+
+/* Textové stránky (zásady) */
+.text-stranka { max-width: 760px; }
+.text-stranka h2 { margin-top: 32px; font-size: 1.3rem; }
+.text-stranka p, .text-stranka li { color: var(--tlumeny); }
+.text-stranka strong { color: #fff; }
+
+/* Přístupnost a drobnosti */
+.preskocit { position: absolute; left: -9999px; top: 8px; z-index: 100; background: var(--zelena); color: var(--na-zelene); padding: 8px 14px; border-radius: 8px; font-weight: 700; }
+.preskocit:focus { left: 8px; }
+.h3 { font-size: 1.2rem; margin: 0 0 10px; }
+.pracovni-blok { display: inline-block; background: rgba(242, 179, 61, .16); color: var(--varovani); border: 1px dashed var(--varovani); border-radius: 4px; padding: 0 6px; }
+label.zaskrt { flex-wrap: wrap; }
+label.zaskrt > span:not(.chyba) { flex: 1; min-width: 0; }
+label.zaskrt .chyba { flex-basis: 100%; padding-left: 26px; }
+input, select, textarea { scroll-margin-top: 110px; }

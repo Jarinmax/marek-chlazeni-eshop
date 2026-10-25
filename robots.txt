@@ -1,0 +1,5 @@
+# PRACOVNÍ VERZE: web se zatím nemá indexovat.
+# Při ostrém spuštění nahradit řádek „Disallow: /“ za „Disallow:“
+# a přidat „Sitemap: https://<doména>/sitemap.xml“ (viz CLAUDE.md – Spuštění).
+User-agent: *
+Disallow: /

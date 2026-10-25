@@ -3,39 +3,86 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Kontakt – CO2klima</title>
-  <meta name="description" content="Kontakt na CO2klima – servis a opravy chladírenských vozů.">
+  <title>Kontakt – CO₂ Klima, Vitice 119</title>
+  <meta name="description" content="Kontakt na CO₂ Klima: telefon +420 734 112 681, info@co2klima.cz, dílna Vitice 119, 281 06 Vitice.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:site_name" content="CO₂ Klima">
+  <meta property="og:title" content="Kontakt – CO₂ Klima, Vitice 119">
+  <meta property="og:description" content="Kontakt na CO₂ Klima: telefon +420 734 112 681, info@co2klima.cz, dílna Vitice 119, 281 06 Vitice.">
   <meta name="theme-color" content="#000000">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" href="img/logo-maly.png">
+  <link rel="preload" href="fonts/lexend-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styl.css">
+  <script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": [
+    "AutoRepair",
+    "HVACBusiness"
+  ],
+  "name": "CO₂ Klima",
+  "description": "Servis chladírenských vozů – servis chladicích jednotek, diagnostika závad, opravy a údržba. Klimatizace a elektro.",
+  "telephone": "+420734112681",
+  "email": "info@co2klima.cz",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Vitice 119 (areál Zahradnictví Jandl)",
+    "postalCode": "281 06",
+    "addressLocality": "Vitice",
+    "addressCountry": "CZ"
+  },
+  "identifier": {
+    "@type": "PropertyValue",
+    "propertyID": "IČO",
+    "value": "88662250"
+  }
+}
+  </script>
 </head>
 <body data-stranka="kontakt">
+  <a class="preskocit" href="#obsah">Přeskočit na obsah</a>
   <header id="hlavicka"></header>
-  <main class="obal">
+  <main id="obsah" class="obal">
     <h1>Kontakt</h1>
-    <div class="kontakt">
-      <dl>
-        <dt>Firma</dt><dd data-firma="nazev"></dd>
-        <dt>Dílna</dt><dd data-firma="adresa"></dd>
-        <dt>Otevírací doba</dt><dd data-firma="oteviraciDoba"></dd>
-        <dt>Telefon</dt><dd data-firma="telefon"></dd>
-        <dt>E-mail</dt><dd data-firma="email"></dd>
-        <dt>Působíme</dt><dd data-firma="oblast"></dd>
-        <dt>IČO</dt><dd data-firma="ico"></dd>
-        <dt>DIČ</dt><dd data-firma="dic"></dd>
-      </dl>
-      <div class="akce">
-        <a class="tlacitko" href="servis.html">Poptat opravu</a>
-        <a class="tlacitko druhotne" data-zavolat href="kontakt.html">Zavolat [telefon]</a>
+    <div class="adresa">
+      <div class="karta-info">
+        <h2 class="h3">CO₂ Klima</h2>
+        <p>Telefon: <span data-telefon><a href="tel:+420734112681">+420 734 112 681</a></span></p>
+        <p>E-mail: <span data-email><a href="mailto:info@co2klima.cz">info@co2klima.cz</a></span></p>
+        <p>Otevírací doba: <span data-oteviraci-doba>Dle telefonické domluvy</span></p>
+        <p>IČO: <span data-firma="ico">88662250</span></p>
+        <p data-jen-pracovni>Obchodní jméno: <span data-firma="nazev"></span><br>DIČ: <span data-firma="dic"></span></p>
+        <div class="akce"><a class="tlacitko" data-zavolat href="tel:+420734112681">Zavolat +420 734 112 681</a></div>
+      </div>
+      <div class="karta-info">
+        <h2 class="h3">Dílna</h2>
+        <p data-adresa>CO₂ Klima<br>areál Zahradnictví Jandl<br>Vitice 119<br>281 06 Vitice</p>
+        <p class="tlumene" data-upresneni>Skleníkový areál vedle Zahradního bistra Begina.</p>
+        <a class="tlacitko druhotne" data-mapa href="https://mapy.cz/zakladni?q=Vitice%20119%2C%20281%2006%20Vitice" target="_blank" rel="noopener">Otevřít v mapě ↗</a>
       </div>
     </div>
+
+    <section class="sekce" aria-labelledby="napiste-nadpis">
+      <h2 id="napiste-nadpis">Napište nám</h2>
+      <form class="formular" data-formular="kontakt" data-predmet="Zpráva z webu CO₂ Klima">
+      <p class="stav-napojeni" data-stav-napojeni hidden></p>
+        <div class="radek">
+          <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name" maxlength="120"></label>
+          <label>Telefon<input name="telefon" type="tel" required autocomplete="tel" inputmode="tel" maxlength="20" placeholder="+420 …"></label>
+        </div>
+        <label>E-mail <span class="nepovinne">(nepovinné)</span><input name="email" type="email" autocomplete="email" maxlength="120"></label>
+        <label>Zpráva<textarea name="zprava" required maxlength="3000"></textarea></label>
+      <label class="zaskrt"><input type="checkbox" name="souhlas" value="ano" required> <span>Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku podle <a href="zasady-ochrany-osobnich-udaju.html" target="_blank">zásad ochrany osobních údajů</a>.</span></label>
+      <p class="souhrn-chyb" role="alert" hidden></p>
+      <button class="tlacitko" type="submit">Odeslat zprávu</button>
+      <div class="stav" role="status" aria-live="polite"></div>
+      </form>
+    </section>
   </main>
   <footer id="paticka"></footer>
-  <script src="js/config.js"></script>
-  <script src="js/produkty.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/config.js" defer></script>
+  <script src="js/app.js" defer></script>
 </body>
 </html>

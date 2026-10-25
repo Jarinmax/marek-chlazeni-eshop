@@ -3,75 +3,86 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Poptat opravu – CO2klima</title>
-  <meta name="description" content="Poptávka opravy nebo servisu chladírenského vozu či chladicí dodávky.">
+  <title>Nezávazně poptat servis – CO₂ Klima</title>
+  <meta name="description" content="Nezávazná poptávka servisu chladírenského vozu, klimatizace nebo elektro. Můžete přiložit fotky závady.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:site_name" content="CO₂ Klima">
+  <meta property="og:title" content="Nezávazně poptat servis – CO₂ Klima">
+  <meta property="og:description" content="Nezávazná poptávka servisu chladírenského vozu, klimatizace nebo elektro. Můžete přiložit fotky závady.">
   <meta name="theme-color" content="#000000">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" href="img/logo-maly.png">
+  <link rel="preload" href="fonts/lexend-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styl.css">
 </head>
 <body data-stranka="servis">
+  <a class="preskocit" href="#obsah">Přeskočit na obsah</a>
   <header id="hlavicka"></header>
-  <main class="obal">
-    <h1>Poptat opravu</h1>
-    <p class="uvod-text">Popište, co se s vozem děje. Ozveme se, domluvíme termín a navrhneme řešení.</p>
-    <form id="servis" class="formular">
+  <main id="obsah" class="obal">
+    <h1>Nezávazně poptat servis</h1>
+    <p class="uvod-text">Popište, co potřebujete. Ozveme se, domluvíme termín a navrhneme řešení. Spěchá to? Zavolejte <span data-telefon><a href="tel:+420734112681">+420 734 112 681</a></span>.</p>
+    <form class="formular" data-formular="servis" data-predmet="Poptávka servisu z webu CO₂ Klima">
+      <p class="stav-napojeni" data-stav-napojeni hidden></p>
       <fieldset>
-        <legend>Vůz a závada</legend>
+        <legend>Co potřebujete</legend>
         <div class="radek">
-          <label>Co potřebujete
-            <select name="typ_pozadavku">
-              <option data-typ="agregat">Porucha chladicího agregátu</option>
-              <option data-typ="servis">Pravidelný servis agregátu</option>
-              <option data-typ="nastavba">Oprava izolované nástavby</option>
-              <option data-typ="elektro">Elektroinstalace</option>
-              <option data-typ="jine">Jiné</option>
+          <label>Služba
+            <select name="sluzba" required>
+              <option data-skupina="vozy">Chladírenský vůz – porucha / diagnostika závady</option>
+              <option data-skupina="vozy">Chladírenský vůz – servis a údržba chladicí jednotky</option>
+              <option data-skupina="klimatizace">Klimatizace – montáž</option>
+              <option data-skupina="klimatizace">Klimatizace – servis, opravy, údržba</option>
+              <option data-skupina="elektro">Elektro – elektroinstalační práce</option>
+              <option data-skupina="elektro">Elektro – diagnostika a odstranění závady</option>
+              <option data-skupina="jine">Jiné</option>
             </select>
           </label>
           <label>Naléhavost
             <select name="nalehavost">
-              <option>Spěchá – vůz nechladí</option>
-              <option selected>Běžná – stačí v příštích dnech</option>
+              <option>Běžná – stačí v příštích dnech</option>
+              <option>Spěchá – nefunkční / nechladí</option>
             </select>
           </label>
         </div>
-        <div class="radek">
-          <label>Značka a typ vozu<input name="vuz" placeholder="např. značka, model"></label>
-          <label>SPZ <span class="nepovinne">(nepovinné)</span><input name="spz" autocapitalize="characters"></label>
+        <div data-pro-skupinu="vozy">
+          <div class="radek">
+            <label>Značka a typ vozu<input name="vuz" maxlength="120"></label>
+            <label>SPZ <span class="nepovinne">(nepovinné)</span><input name="spz" maxlength="12" autocapitalize="characters"></label>
+          </div>
+          <div class="radek" style="margin-top:16px">
+            <label>Chladicí jednotka <span class="nepovinne">(značka a typ, pokud víte)</span><input name="jednotka" maxlength="120"></label>
+            <label>Výška a šířka vozu <span class="nepovinne">(kvůli vjezdu do dílny)</span><input name="rozmery_vozu" maxlength="60" placeholder="např. 3,4 m × 2,5 m"></label>
+          </div>
         </div>
-        <div class="radek">
-          <label>Typ agregátu <span class="nepovinne">(pokud víte)</span><input name="agregat" placeholder="značka a typ ze štítku"></label>
-          <label>Kde vůz stojí<input name="misto" required placeholder="obec, ulice"></label>
-        </div>
-        <label>Popis závady<textarea name="popis" required placeholder="Co se děje, od kdy, případně chybový kód"></textarea></label>
-        <label>Fotky <span class="nepovinne">(nepovinné – závada, štítek agregátu, chybové hlášení)</span>
-          <input type="file" name="fotky" accept="image/*" multiple>
-          <span class="napoveda" data-limit-fotek></span>
+        <label>Místo <span class="nepovinne">(kde vůz stojí / adresa zakázky)</span><input name="misto" required maxlength="160"></label>
+        <label>Popis závady nebo požadavku<textarea name="popis" required maxlength="3000"></textarea></label>
+        <label>Fotky závady <span class="nepovinne">(nepovinné)</span>
+          <input type="file" name="fotky" accept="image/jpeg,image/png,image/webp,image/heic,image/heif,.heic,.heif" multiple>
+          <span class="napoveda" data-limit-fotek>Nejvýše 5 fotek, každá do 10 MB.</span>
         </label>
-        <div class="nahledy"></div>
+        <div class="nahledy" aria-live="polite"></div>
         <label>Preferovaný termín <span class="nepovinne">(nepovinné)</span><input name="termin" type="date"></label>
       </fieldset>
       <fieldset>
         <legend>Kontakt na vás</legend>
         <div class="radek">
-          <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name"></label>
-          <label>Telefon<input name="telefon" type="tel" required autocomplete="tel"></label>
+          <label>Jméno a příjmení / firma<input name="jmeno" required autocomplete="name" maxlength="120"></label>
+          <label>Telefon<input name="telefon" type="tel" required autocomplete="tel" inputmode="tel" maxlength="20" placeholder="+420 …"></label>
         </div>
         <div class="radek">
-          <label>E-mail <span class="nepovinne">(nepovinné)</span><input name="email" type="email" autocomplete="email"></label>
-          <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric"></label>
+          <label>E-mail <span class="nepovinne">(nepovinné)</span><input name="email" type="email" autocomplete="email" maxlength="120"></label>
+          <label>IČO <span class="nepovinne">(nepovinné)</span><input name="ico" inputmode="numeric" maxlength="12"></label>
         </div>
       </fieldset>
-      <label class="zaskrt"><input type="checkbox" name="souhlas" value="ano" required> Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku.</label>
-      <button class="tlacitko" type="submit">Poptat opravu</button>
-      <p class="stav" role="status"></p>
+      <label class="zaskrt"><input type="checkbox" name="souhlas" value="ano" required> <span>Souhlasím se zpracováním osobních údajů za účelem vyřízení požadavku podle <a href="zasady-ochrany-osobnich-udaju.html" target="_blank">zásad ochrany osobních údajů</a>.</span></label>
+      <p class="souhrn-chyb" role="alert" hidden></p>
+      <button class="tlacitko" type="submit">Odeslat nezávaznou poptávku</button>
+      <div class="stav" role="status" aria-live="polite"></div>
     </form>
   </main>
   <footer id="paticka"></footer>
-  <script src="js/config.js"></script>
-  <script src="js/produkty.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/config.js" defer></script>
+  <script src="js/app.js" defer></script>
 </body>
 </html>

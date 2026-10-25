@@ -3,32 +3,40 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Ceník – CO2klima</title>
-  <meta name="description" content="Ceník servisu a oprav chladírenských vozů.">
+  <title>Ceník – CO₂ Klima</title>
+  <meta name="description" content="Ceník servisu chladírenských vozů, klimatizací a elektro – CO₂ Klima.">
+  <meta property="og:type" content="website">
+  <meta property="og:locale" content="cs_CZ">
+  <meta property="og:site_name" content="CO₂ Klima">
+  <meta property="og:title" content="Ceník – CO₂ Klima">
+  <meta property="og:description" content="Ceník servisu chladírenských vozů, klimatizací a elektro – CO₂ Klima.">
   <meta name="theme-color" content="#000000">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap">
+  <meta name="referrer" content="strict-origin-when-cross-origin">
   <link rel="icon" href="img/logo-maly.png">
+  <link rel="preload" href="fonts/lexend-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="css/styl.css">
 </head>
 <body data-stranka="cenik">
+  <a class="preskocit" href="#obsah">Přeskočit na obsah</a>
   <header id="hlavicka"></header>
-  <main class="obal">
+  <main id="obsah" class="obal">
     <h1>Ceník</h1>
-    <p class="uvod-text">Konkrétní cenu opravy vám rádi upřesníme. <a href="servis.html">Poptejte opravu</a> nebo zavolejte.</p>
+    <p class="uvod-text">Konkrétní cenu vám rádi upřesníme po telefonu nebo na základě nezávazné poptávky.</p>
     <div id="cenik"></div>
+    <div class="akce">
+      <a class="tlacitko" href="servis.html">Nezávazně poptat servis</a>
+      <a class="tlacitko druhotne" data-zavolat href="tel:+420734112681">Zavolat +420 734 112 681</a>
+    </div>
   </main>
   <section class="panel-zeleny">
     <div class="obal">
       <h2>Má váš chladírenský vůz poruchu?</h2>
       <p>Zavolejte nebo napište. Domluvíme termín a navrhneme řešení.</p>
-      <a class="tlacitko" data-zavolat href="kontakt.html">Zavolat [telefon]</a>
+      <a class="tlacitko" data-zavolat href="tel:+420734112681">Zavolat +420 734 112 681</a>
     </div>
   </section>
   <footer id="paticka"></footer>
-  <script src="js/config.js"></script>
-  <script src="js/produkty.js"></script>
-  <script src="js/app.js"></script>
+  <script src="js/config.js" defer></script>
+  <script src="js/app.js" defer></script>
 </body>
 </html>
