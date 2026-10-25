@@ -55,6 +55,15 @@
             <label>Výška a šířka vozu <span class="nepovinne">(kvůli vjezdu do dílny)</span><input name="rozmery_vozu" maxlength="60" placeholder="např. 3,4 m × 2,5 m"></label>
           </div>
         </div>
+        <div data-pro-skupinu="vozy klimatizace">
+          <label>Chladivo v okruhu <span class="nepovinne">(typ, pokud víte – např. R134a)</span>
+            <input name="chladivo" list="typy-chladiva" maxlength="40" autocomplete="off" placeholder="např. R134a">
+          </label>
+          <datalist id="typy-chladiva">
+            <option value="R134a"><option value="R404A"><option value="R452A"><option value="R1234yf">
+            <option value="R410A"><option value="R32"><option value="Nevím">
+          </datalist>
+        </div>
         <label>Místo <span class="nepovinne">(kde vůz stojí / adresa zakázky)</span><input name="misto" required maxlength="160"></label>
         <label>Popis závady nebo požadavku<textarea name="popis" required maxlength="3000"></textarea></label>
         <label>Fotky závady <span class="nepovinne">(nepovinné)</span>

@@ -53,6 +53,7 @@ uložené v `fonts/` (žádné Google Fonts).
   Úspěch jen při HTTP 2xx a odpovědi bez `success: false`.
 - Validace v JS s českými hláškami: povinná pole, telefon, e-mail, max. 5 fotek,
   JPG/PNG/WEBP/HEIC, max. 10 MB/fotka. Pole o vozidle jen u služby „Chladírenský vůz“.
+  Pole „Chladivo v okruhu“ (typ, např. R134a; nepovinné) u chladírenských vozů i klimatizací – přání Marka.
 
 ## Spuštění (před ostrým provozem)
 
